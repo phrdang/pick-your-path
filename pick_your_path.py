@@ -11,14 +11,16 @@ Program Objectives:
 from random import randint
 from time import sleep
 
-print "Welcome to Pick Your Path!"
+# Upon startup, welcome player to game
+print('Welcome to Pick Your Path!')
 sleep(0.5)
-print "An interactive game where a combination of wise decision-making and a bit of luck will lead to success."
+print('An interactive game where a combination of wise decision-making and a bit of luck will lead to success.')
 sleep(0.5)
-print "Mode: Zombie Apocalypse"
+print('Mode: Zombie Apocalypse')
 sleep(1)
 
 def start_game():
+	# Lists of names for random generation of names
 	first_names = [
 		'Rebecca',
 		'Tommy',
@@ -47,18 +49,86 @@ def start_game():
 		'Ashikaga'
 	]
 
-	first_name = first_names[randint(0,10)]
-	last_name = last_names[randint(0,10)]
+	# Asks user if they want to use their own name or randomly generate one, and does what the users wishes
+	while True:
+		name_choice = input('Would you like to use your own name? (If not, your name will be randomly generated.) Y / N: ').upper()
 
-	name = first_name + ' ' + last_name 
+		try:
+			assert name_choice == 'Y' or name_choice == 'N'
+		except AssertionError:
+			print('Error, please type in Y or N.')
+			print()
+		else:
+			if name_choice == 'Y':
+				while True:
+					try:
+						name = input('Name (first and last): ')
+						assert name.strip()
+					# Raises exception if name string is empty or blank
+					except AssertionError:
+						print('Error, please make sure you have entered a name.')
+						print()
+					else:
+						# Break out of inside while loop
+						break
+				# Break out of outside while loop
+				break
+			else:
+				# Randomly generates first and last name
+				first_name = first_names[randint(0,len(last_names)-1)]
+				last_name = last_names[randint(0,len(last_names)-1)]
 
-	print 'Your name is %s.' % name
+				# Combines first and last name into name variable
+				name = first_name + ' ' + last_name 
+
+				# Break out of outside while loop
+				break
+
+	# Prints name
+	print('Your name is %s.' % name)
+	print()
 
 	sleep(0.5)
 
-	age = randint(20, 65) 
-	print "Your age is %d." % age
+	# Asks user if they want to use their own age or randomly generate one, and does what the users wishes
+	while True:
+		age_choice = input('Would you like to use your own age? (If not, your age will be randomly generated.) Y / N: ').upper()
 
+		try:
+			assert age_choice == 'Y' or age_choice == 'N'
+		except AssertionError:
+			print('Error, please type in Y or N.')
+			print()
+		else:
+			if age_choice == 'Y':
+				while True:
+					try:
+						age = int(input('Age: '))
+						assert age >= 20 and age <= 65
+					# Raises exception if input entered isn't valid for the int() function
+					except ValueError:
+						print('Error, please enter an integer.')
+						print()
+					# Raises exception if age is not between 20 and 65
+					except AssertionError:
+						print('Error, please enter an age between 20 and 65.')
+						print()
+					else:
+						# Breaks out of inside while loop
+						break
+				# Breaks out of outside while loop		
+				break
+			else:
+				# Randomly generates age from 20-65 years
+				age = randint(20, 66) 
+				# Breaks out of outside while loop
+				break
+	
+	# Prints age
+	print("Your age is %d." % age)
+	print()
+
+	# If age is 20-30 
 	if age >= 20 and age <= 30:
 		age = 'young' 
 		# Success rates 
@@ -66,12 +136,16 @@ def start_game():
 		reflex = 80 		#reflexes
 		intellect = 60 		#intellect
 		ppl = 70 			#people skills
+
+	# If age is 31-50
 	elif age > 30 and age <= 50:
 		age = 'midlife'
 		phys = 70
 		reflex = 60
 		intellect = 70
 		ppl = 70
+
+	# If age is 51+
 	else:
 		age = 'old'
 		phys = 40
@@ -82,8 +156,8 @@ def start_game():
 	sleep(0.5)
 
 	pick_job = True
-	while pick_job == True:
-		occupation = raw_input("""Choose an occupation:
+	while pick_job:
+		occupation = input("""Choose an occupation:
 			(1) Physics teacher
 			(2) CEO
 			(3) Chef
@@ -91,49 +165,56 @@ def start_game():
 			(5) Sales representative
 			(6) Unemployed
 Enter an integer from 1-6: """)
-		occupations = ['1', '2', '3', '4', '5', '6']
-		if occupation not in occupations:
+		print()
+		if occupation not in '123456':
 			pick_job = True
-			print "Sorry, please enter the integer from 1-6 that corresponds to your occupation choice."
+			print('Sorry, please enter the integer from 1-6 that corresponds to your occupation choice.')
+			print()
 		else:
 			pick_job = False
 			if occupation == '1':
-				print "You are a physics teacher."
+				print('You are a physics teacher.')
+				print()
 				phys -= 5
 				reflex += 0
 				intellect += 20
 				ppl += 5
 				occupation = 'physics teacher'
 			if occupation == '2':
-				print "You are a CEO."
+				print('You are a CEO.')
+				print()
 				phys -= 5
 				reflex += 0
 				intellect += 10
 				ppl += 10
 				occupation = 'CEO'
 			if occupation == '3':
-				print "You are a chef."
+				print('You are a chef.')
+				print()
 				phys += 5
 				reflex += 0
 				intellect += 5
 				ppl += 0
 				occupation = 'chef'
 			if occupation == '4':
-				print "You are a police officer."
+				print('You are a police officer.')
+				print()
 				phys += 20
 				reflex += 10
 				intellect += 5
 				ppl -= 10
 				occupation = 'police officer'
 			if occupation == '5':
-				print "You are a sales representative."
+				print('You are a sales representative.')
+				print()
 				phys += 0
 				reflex += 0
 				intellect += 5
 				ppl += 20
 				occupation = 'sales representative'
 			if occupation == '6':
-				print "You are unemployed."	
+				print('You are unemployed.')
+				print()
 				phys -= 10
 				reflex += 0
 				intellect -= 10
@@ -144,9 +225,10 @@ Enter an integer from 1-6: """)
 	sleep(1)
 
 	status = 4
-	print "The game is now beginning. Good luck!"
+	print('The game is now beginning. Good luck!')
+	print()
 
-	game(name, age, occupation, phys, reflex, intellect, ppl, status)
+	# game(name, age, occupation, phys, reflex, intellect, ppl, status)
 
 
 def game(name, age, occupation, phys, reflex, intellect, ppl, status):
@@ -156,15 +238,16 @@ def game(name, age, occupation, phys, reflex, intellect, ppl, status):
 
 	while playing_game == True:
 		if sit == 1:
-			print """It's the weekend, and you're currently sitting at home. You've decided to binge watch Marvel's Agents of S.H.I.E.L.D., which your friend Brenda recommended to you, when suddenly you start to hear some sort of banging noise on your front door. Looking through the peephole, you see a horde of zombies trying to break through.
+			print("""It's the weekend, and you're currently sitting at home. You've decided to binge watch Marvel's Agents of S.H.I.E.L.D., which your friend Brenda recommended to you, when suddenly you start to hear some sort of banging noise on your front door. Looking through the peephole, you see a horde of zombies trying to break through.
 
 What do you do?
 	(1) Grab your emergency supplies backpack and exit through the backyard
 	(2) Grab your family's shotgun and a kitchen knife and try to mow down the zombies
-"""
+""")
+			print()
 			make_choice = True
 			while make_choice == True:
-				choice = int(raw_input("Enter 1 or 2: "))
+				choice = int(input("Enter 1 or 2: "))
 				chance = randint(1, 100)
 				if choice == 1:
 					if phys >= chance:
@@ -181,29 +264,30 @@ What do you do?
 						sit = 2.3 # change
 					make_choice = False
 				else:
-					print "Please enter 1 or 2."
+					print('Please enter 1 or 2.')
+					print()
 
 		
 	"""
 		if status == 1 or status == 7:
 			if status == 1:
-				print 'Game over. You have died!'
+				print('Game over. You have died!')
 			if status == 7:
-				print 'Game over. You won!'
+				print('Game over. You won!')
 			sleep(0.5)
 			play_game = (raw_input("Play again? Y/N: ")).upper()
 			if play_game == 'Y':
 				sleep(0.5)
-				print 'Game restarting...'
+				print('Game restarting...')
 				sleep(1)
 				status = 4
 				playing_game = False
 				start_game()
 			elif play_game == 'N':
-				print 'Thanks for playing!'
+				print('Thanks for playing!')
 				break
 			else:
-				print 'Sorry, you did not enter Y or N. Please try again.'
+				print('Sorry, you did not enter Y or N. Please try again.')
 	"""
 
 start_game()
