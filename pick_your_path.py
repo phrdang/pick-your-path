@@ -155,8 +155,7 @@ def start_game():
 
 	sleep(0.5)
 
-	pick_job = True
-	while pick_job:
+	while True:
 		occupation = input("""Choose an occupation:
 			(1) Physics teacher
 			(2) CEO
@@ -166,65 +165,61 @@ def start_game():
 			(6) Unemployed
 Enter an integer from 1-6: """)
 		print()
-		if occupation not in '123456':
-			pick_job = True
+
+		try:
+			assert occupation in '123456'
+		except AssertionError:
 			print('Sorry, please enter the integer from 1-6 that corresponds to your occupation choice.')
-			print()
 		else:
-			pick_job = False
 			if occupation == '1':
 				print('You are a physics teacher.')
-				print()
 				phys -= 5
 				reflex += 0
 				intellect += 20
 				ppl += 5
 				occupation = 'physics teacher'
-			if occupation == '2':
+			elif occupation == '2':
 				print('You are a CEO.')
-				print()
 				phys -= 5
 				reflex += 0
 				intellect += 10
 				ppl += 10
 				occupation = 'CEO'
-			if occupation == '3':
+			elif occupation == '3':
 				print('You are a chef.')
-				print()
 				phys += 5
 				reflex += 0
 				intellect += 5
 				ppl += 0
 				occupation = 'chef'
-			if occupation == '4':
+			elif occupation == '4':
 				print('You are a police officer.')
-				print()
 				phys += 20
 				reflex += 10
 				intellect += 5
 				ppl -= 10
 				occupation = 'police officer'
-			if occupation == '5':
+			elif occupation == '5':
 				print('You are a sales representative.')
-				print()
 				phys += 0
 				reflex += 0
 				intellect += 5
 				ppl += 20
 				occupation = 'sales representative'
-			if occupation == '6':
+			elif occupation == '6':
 				print('You are unemployed.')
-				print()
 				phys -= 10
 				reflex += 0
 				intellect -= 10
 				ppl += 0
 				occupation = 'unemployed'
-
-
+			break
+		finally:
+			print()
+			
 	sleep(1)
 
-	status = 4
+	status = 4 # healthy (neutral)
 	print('The game is now beginning. Good luck!')
 	print()
 
