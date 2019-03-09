@@ -285,6 +285,14 @@ What do you do?
 				print('Sorry, you did not enter Y or N. Please try again.')
 	"""
 
+# Helper functions
+
+def pick_sit(name, age, occupation, phys, reflex, intellect, ppl, status):
+	'''
+	Picks a slightly random situation, based on status and occupation.
+	Presents the user with 2 choices, and takes user's input.
+	'''
+
 start_game()
 
 """
@@ -302,35 +310,9 @@ else:
 Status System:
 1 - dead/zombie
 2 - infected
-3 - infected
+3 - injured
 4 - alive (normal)
 5 - alive (healthy)
 6 - alive (close to being free)
 7 - free (and alive)
 """
-
-# Scenarios, 5 for each level (25 total b/c 1 and 7)
-
-"""
-Status 1:
-1BBB
-
-Status 2:
-1BB
-
-Status 3:
-1B
-
-Status 4: BEGIN GAME - you can never return to this?
-1
-
-Status 5:
-1A
-
-Status 6:
-1AA
-
-Status 7:
-1AAA
-"""
-
