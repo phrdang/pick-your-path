@@ -6,6 +6,7 @@ Project Completed: ---
 
 Program Objectives:
 1. Give the user scenarios, and have them pick things which leads to other scenarios.
+2. UPDATE: Use classes
 """
 
 from random import randint
