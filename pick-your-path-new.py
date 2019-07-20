@@ -59,9 +59,6 @@ def get_player_stats():
     FN_FILE_NAME = 'first_names.txt'
     LN_FILE_NAME = 'last_names.txt'
 
-    # List of the player's stats
-    stats = []
-
     # List of 10 possible jobs
     jobs = ['unemployed', 'CEO', 'chef', 'police officer', 'fire fighter', 'doctor', 'sales representative', 'waiter', 'teacher', 'fast food worker']
 
@@ -107,22 +104,25 @@ def get_player_stats():
     move = r.randint(1, 5)
 
     # Change stats based on job bonuses/handicaps
-    strength += jobs_stats[job]['str']
+    strength += jobs_stats[job]['str'] 
     skill += jobs_stats[job]['skl']
     speed += jobs_stats[job]['spd']
     intellect += jobs_stats[job]['int']
     ppl += jobs_stats[job]['ppl']
     luck += jobs_stats[job]['luk']
 
-    # Add stats to the stats list
-    stats.append(strength)
-    stats.append(skill)
-    stats.append(speed)
-    stats.append(intellect)
-    stats.append(ppl)
-    stats.append(luck)
+    # stats list
+    stats = [strength, skill, speed, intellect, ppl, luck]
 
-    return stats
+    # Check to make sure stats aren't above or below caps
+    for stat in stats:
+        if stat < MIN_STAT:
+            stat = 0
+        if stat > MAX_STAT:
+            stat = 20
+
+    # Add stats to the stats list
+    return name, age, job, stats[0], stats[1], stats[2], stats[3], stats[4], stats[5], move
 
 ### CLASSES ###
 
@@ -178,8 +178,14 @@ class Player(object):
         doctsr
         '''
         # To print gear and weapons as strings
-        gear = None
-        weapons = None
+        gear = ''
+        weapons = ''
+
+        for g in self.gear:
+            gear += g + ' '
+        
+        for w in self.weapons:
+            weapons += w + ' '
 
         # Lines of player stats, organized by category
         stats1 = 'IDENTITY\nName: %s | Age: %d | Job: %s' % (self.name, self.age, self.job)
@@ -190,7 +196,7 @@ class Player(object):
         stats3 = 'STATUS\nMove: %d | Overall Status: %s | Health: %d | Hunger: %d | Thirst: %d | Sleep: %d' % \
             (self.move, self.status[0], self.health, self.hunger, self.thirst, self.sleep)
 
-        stats4 = 'Specific Status: %s' % ()
+        stats4 = 'Specific Status: %s' % (self.get_specific_status())
 
         stats5 = 'OTHER\nGear: %s | Weapons: %s | Experience: %d' % (gear, weapons, self.exp)
 
@@ -230,7 +236,23 @@ class Player(object):
         else:
             return False
     
-    
+    def get_specific_status(self):
+        '''
+        doctsr
+        '''
+        specific_status = ''
+
+        if self.is_healthy():
+            specific_status += 'healthy '
+        else:
+            if self.is_hungry():
+                specific_status += 'hungry '
+            if self.is_thirsty():
+                specific_status += 'thirsty '
+            if self.is_sleepy():
+                specific_status += 'sleepy'
+
+        return specific_status
 
     # setters and getters
     # str method
@@ -260,7 +282,10 @@ def main():
     print('Mode:', mode)
     sleep(1)
 
-    player = Player()
-    print(player.name)
+    name, age, job, strength, skill, speed, intellect, ppl, luck, move = get_player_stats() 
+
+    player = Player(name, age, job, strength, skill, speed, intellect, ppl, luck, move)
+
+    print(player)
 
 main()
