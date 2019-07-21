@@ -11,7 +11,7 @@ Command: y
 NOTE: When typing your password, the characters will not display
 on the screen for security purposes.
 
-Username: ph.rdang
+Username: Rebecca
 Password:          
 
 Authenticating...
@@ -41,7 +41,7 @@ Mode: Zombie Apocalypse
 PICK YOUR PATH                                          User: Rebecca       (S) Save    (L) Logout   
 
 ----------------------------------------------------------------------------------------------------
-CREATE YOUR PLAYER
+CREATE YOUR PLAYER - CREATE OR GENERATE
 Create your own player or generate random player?
 
     (1) Create my own player
@@ -53,13 +53,33 @@ You chose to create your own player.
 PICK YOUR PATH                                          User: Rebecca       (S) Save    (L) Logout   
                                                                                         (G) Guide       21 tabs to G 
 ----------------------------------------------------------------------------------------------------
-CREATE YOUR PLAYER
+CREATE YOUR PLAYER - IDENTITY
+
+*** Once you press 'Enter', the input you give cannot be undone. ***
+
+First name: Rebecca
+Last name: Dang
+Age (from 20-65): 35
+Choose a job:
+    (1)
+    (2)
+    (3)
+    (4)
+    (5) Police officer
+    (6)
+    (7)
+    (8)
+    (9)
+    (10)
+Job: 5
+You chose to be a police officer.
+
 You have 60 points to distribute as you wish between 7 types of statistics. 
 
 Before distributing points, it is recommended that you view the guide to understand
 what each statistic affects during gameplay. 
 
-Would you like to view the guide now?
+Would you like to view the guide?
     (Y) Yes
     (N) No
 Enter Y or N: Y [or G]
@@ -102,6 +122,26 @@ Choose a section of PLAYER INFORMATION to read:
     (3) Status
     (4) Other
 Command: x
+---------------------------------------------------------------------------------------------------- 
+PICK YOUR PATH                                          User: Rebecca       (S) Save    (L) Logout   
+                                                                                        (G) Guide     
+----------------------------------------------------------------------------------------------------
+CREATE YOUR PLAYER - STATISTICS
+You have 60 points to distribute as you wish between 7 types of statistics.
+Enter the number of points you'd like to give for each statistic. 
+They must be between 5 and 10.
+
+*** Once you press 'Enter', the input you give cannot be undone. ***
+
+Strength: 10
+Skill: 10
+Speed: 10
+Defense: 5
+Intellect: 5
+People Skills: 10
+Luck: 10
+
+Move has been randomly set to 3.
 ---------------------------------------------------------------------------------------------------- 
 PICK YOUR PATH                                          User: Rebecca       (S) Save    (L) Logout   
                             (V) View player stats       (I) Inventory       (M) Map     (G) Guide    7 to V, 2 to I, 2 to M, 2 to G    
