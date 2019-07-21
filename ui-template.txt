@@ -1,0 +1,110 @@
+---------------------------------------------------------------------------------------------------- ('-' * 100) username can only be 13 char or less
+PICK YOUR PATH
+
+----------------------------------------------------------------------------------------------------
+LOGIN
+Do you already have an account?
+    (Y) Yes
+    (N) No
+Command: y
+
+NOTE: When typing your password, the characters will not display
+on the screen for security purposes.
+
+Username: ph.rdang
+Password:          
+
+Authenticating...
+
+Login successful.
+
+Loading user save files:
+    (1) save-file-1.txt
+    (2) save-file-2.txt
+Choose a save file or type 'n' for a new game.
+Command: n
+You chose new game.
+---------------------------------------------------------------------------------------------------- 
+PICK YOUR PATH                                          User: Rebecca       (S) Save    (L) Logout   ('\t' * 11) between PATH and User, 2 between rebecca and (S), 1 between save and (L)
+
+----------------------------------------------------------------------------------------------------
+CHOOSE YOUR MODE
+Choose a mode:
+
+    (1) Zombie Apocalypse
+    (2) Medieval Fantasy
+    (3) Natural Disaster
+
+Command: 1
+Mode: Zombie Apocalypse
+---------------------------------------------------------------------------------------------------- 
+PICK YOUR PATH                                          User: Rebecca       (S) Save    (L) Logout   
+
+----------------------------------------------------------------------------------------------------
+CREATE YOUR PLAYER
+Create your own player or generate random player?
+
+    (1) Create my own player
+    (2) Generate random player
+
+Command: 1
+You chose to create your own player.
+---------------------------------------------------------------------------------------------------- 
+PICK YOUR PATH                                          User: Rebecca       (S) Save    (L) Logout   
+                                                                                        (G) Guide       21 tabs to G 
+----------------------------------------------------------------------------------------------------
+CREATE YOUR PLAYER
+You have 60 points to distribute as you wish between 7 types of statistics. 
+
+Before distributing points, it is recommended that you view the guide to understand
+what each statistic affects during gameplay. 
+
+Would you like to view the guide now?
+    (Y) Yes
+    (N) No
+Enter Y or N: Y [or G]
+---------------------------------------------------------------------------------------------------- 
+PICK YOUR PATH                                          User: Rebecca       (S) Save    (L) Logout   
+                                                                            (B) Back    (X) Exit     
+----------------------------------------------------------------------------------------------------
+GUIDE 
+Choose a section of the guide to read:
+    (1) Gameplay
+    (2) Player Information
+Command: 2
+
+[Guide / Player Information]
+Choose a section of PLAYER INFORMATION to read:
+    (1) Identity
+    (2) Statistics
+    (3) Status
+    (4) Other
+Command: 2
+
+[Guide / Player Information / Statistics]
+Every player (character inside of the game) has 7 player statistics that range from 0 to 20:
+
+1. [str] Strength - 
+2. [skl] Skill - 
+3. [spd] Speed - 
+4. [def] Defense - 
+5. [int] Intellect - 
+6. [ppl] People Skills - 
+7. [luk] Luck - 
+
+Statistics may be affected by the player's job or status.
+Command: b
+
+[Guide / Player Information]
+Choose a section of PLAYER INFORMATION to read:
+    (1) Identity
+    (2) Statistics
+    (3) Status
+    (4) Other
+Command: x
+---------------------------------------------------------------------------------------------------- 
+PICK YOUR PATH                                          User: Rebecca       (S) Save    (L) Logout   
+                            (V) View player stats       (I) Inventory       (M) Map     (G) Guide    7 to V, 2 to I, 2 to M, 2 to G    
+----------------------------------------------------------------------------------------------------
+
+
