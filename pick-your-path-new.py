@@ -1,6 +1,15 @@
 import random as r
 from time import sleep
 
+### NAME DATABASE CREDITS ###
+'''
+ENGLISH FIRST AND LAST NAME:
+https://github.com/smashew/NameDatabases 
+
+FANTASY FIRST NAMES FOR FEMALE, MALE; LAST NAME:
+https://www.mithrilandmages.com/utilities/MedievalBrowse.php?letter=B&fms=M
+'''
+
 ### FUNCTIONS ###
 
 def load_names(file_name, purpose):
@@ -33,7 +42,7 @@ def choose_mode():
         mode = input('''Choose a mode:
 
     (1) Zombie Apocalypse
-    (2) Medieval Europe
+    (2) Medieval Fantasy
     (3) Natural Disaster
 
 Enter 1, 2, or 3: ''')
@@ -41,7 +50,7 @@ Enter 1, 2, or 3: ''')
             mode = 'Zombie Apocalypse'
             break
         elif mode == '2':
-            mode = 'Medieval Europe'
+            mode = 'Medieval Fantasy'
             break
         elif mode == '3':
             mode = 'Natural Disaster'
@@ -50,40 +59,91 @@ Enter 1, 2, or 3: ''')
             print('Error, please enter 1, 2, or 3.')
     return mode
 
-def get_player_stats():
+def get_player_stats(mode):
+    '''
+    docstr
+    '''
     # Stat caps after bonuses/handicaps added
     BONUS_MAX_STAT = 13
     HANDICAP_MIN_STAT = 2
+
     # Stat caps for original random number generation
     MAX_STAT = 10
     MIN_STAT = 5
 
-    # Name text files
+    ### Name text files
+
+    # English first and last names
     FN_FILE_NAME = 'first_names.txt'
     LN_FILE_NAME = 'last_names.txt'
 
-    # List of 10 possible jobs
-    jobs = ['unemployed', 'CEO', 'chef', 'police officer', 'fire fighter', 'doctor', 'sales representative', 'waiter', 'teacher', 'fast food worker']
+    # Fantasy first and last names
+    FANTASY_MALE_FN_FILE_NAME = 'fantasy_m_fn.txt'
+    FANTASY_FEMALE_FN_FILE_NAME = 'fantasy_f_fn.txt'
+    FANTASY_MIXED_FN_FILE_NAME = 'fantasy_o_fn.txt'
+    FANTASY_LN_FILE_NAME = 'fantasy_ln.txt'
 
-    # 2D dict of possible occupations
-    # and their corresponding stat
-    # bonuses or handicaps
-    jobs_stats = {
-        'unemployed':           {'str':-1, 'skl':-1, 'spd':-1, 'def':0, 'int':1, 'ppl':-1, 'luk':3}, 
-        'CEO':                  {'str':-1, 'skl':1, 'spd':-1, 'def':1, 'int':3, 'ppl':2, 'luk':1}, 
-        'chef':                 {'str':1, 'skl':1, 'spd':1, 'def':1, 'int':-1, 'ppl':0, 'luk':-1}, 
-        'police officer':       {'str':3, 'skl':2, 'spd':1, 'def':3, 'int':0, 'ppl':0, 'luk':-2}, 
-        'fire fighter':         {'str':3, 'skl':2, 'spd':2, 'def':2, 'int':0, 'ppl':0, 'luk':-2}, 
-        'doctor':               {'str':0, 'skl':3, 'spd':0, 'def':-1, 'int':3, 'ppl':1, 'luk':1}, 
-        'sales representative': {'str':-1, 'skl':0, 'spd':0, 'def':-1, 'int':1, 'ppl':3, 'luk':2}, 
-        'waiter':               {'str':1, 'skl':1, 'spd':1, 'def':0, 'int':-1, 'ppl':1, 'luk':0}, 
-        'teacher':              {'str':-1, 'skl':2, 'spd':0, 'def':0, 'int':2, 'ppl':1, 'luk':1},
-        'fast food worker':     {'str':1, 'skl':0, 'spd':2, 'def':0, 'int':-1, 'ppl':1, 'luk':3}
-    }
+    if mode == 'Zombie Apocalypse' or mode == 'Natural Disaster':
+        # Load names
+        FIRST_NAMES = load_names(FN_FILE_NAME, 'f')
+        LAST_NAMES = load_names(LN_FILE_NAME, 'l')
 
-    # Load names
-    FIRST_NAMES = load_names(FN_FILE_NAME, 'f')
-    LAST_NAMES = load_names(LN_FILE_NAME, 'l')
+        # List of 10 possible jobs
+        jobs = ['unemployed', 'CEO', 'chef', 'police officer', 'fire fighter', 'doctor', 'sales representative', 'waiter', 'teacher', 'fast food worker']
+
+        # 2D dict of possible occupations and their corresponding stat bonuses or handicaps
+        jobs_stats = {
+            'unemployed':           {'str':-1, 'skl':-1, 'spd':-1, 'def':0, 'int':1, 'ppl':-1, 'luk':3}, 
+            'CEO':                  {'str':-1, 'skl':1, 'spd':-1, 'def':1, 'int':3, 'ppl':2, 'luk':1}, 
+            'chef':                 {'str':1, 'skl':1, 'spd':1, 'def':1, 'int':-1, 'ppl':0, 'luk':-1}, 
+            'police officer':       {'str':3, 'skl':2, 'spd':1, 'def':3, 'int':0, 'ppl':0, 'luk':-2}, 
+            'fire fighter':         {'str':3, 'skl':2, 'spd':2, 'def':2, 'int':0, 'ppl':0, 'luk':-2}, 
+            'doctor':               {'str':0, 'skl':3, 'spd':0, 'def':-1, 'int':3, 'ppl':1, 'luk':1}, 
+            'sales representative': {'str':-1, 'skl':0, 'spd':0, 'def':-1, 'int':1, 'ppl':3, 'luk':2}, 
+            'waiter':               {'str':1, 'skl':1, 'spd':1, 'def':0, 'int':-1, 'ppl':1, 'luk':0}, 
+            'teacher':              {'str':-1, 'skl':2, 'spd':0, 'def':0, 'int':2, 'ppl':1, 'luk':1},
+            'fast food worker':     {'str':1, 'skl':0, 'spd':2, 'def':0, 'int':-1, 'ppl':1, 'luk':3}
+        }
+    elif mode == 'Medieval Fantasy':
+        # Load names and pick jobs list based on gender
+        while True:
+            gender = input("Gender? Enter 'm', 'f', or 'o': ").lower()
+            if gender == 'm':
+                FIRST_NAMES = load_names(FANTASY_MALE_FN_FILE_NAME, 'f')
+                # List of 10 possible jobs (male)
+                jobs = ['court jester', 'knight', 'serf', 'king', 'prince', 'blacksmith', 'wizard', 'dragon rider', 'priest', 'thief']
+                break
+            elif gender == 'f':
+                FIRST_NAMES = load_names(FANTASY_FEMALE_FN_FILE_NAME, 'f')
+                # List of 10 possible jobs (female)
+                jobs = ['court jester', 'knight', 'serf', 'queen', 'princess', 'blacksmith', 'wizard', 'dragon rider', 'priest', 'thief']
+                break
+            elif gender == 'o':
+                FIRST_NAMES = load_names(FANTASY_MIXED_FN_FILE_NAME, 'f')
+                # List of 12 possible jobs (other)
+                jobs = ['court jester', 'knight', 'serf', 'king', 'queen', 'prince', 'princess', 'blacksmith', 'wizard', 'dragon rider', 'priest', 'thief']
+                break
+            else:
+                print("Invalid input, please type 'm', 'f', or 'o'.")
+        LAST_NAMES = load_names(FANTASY_LN_FILE_NAME, 'l')
+
+        # 2D dict of possible occupations and their corresponding stat bonuses or handicaps
+        jobs_stats = {
+            'court jester':     {'str':-1, 'skl':1, 'spd':1, 'def':0, 'int':1, 'ppl':3, 'luk':3}, 
+            'knight':           {'str':3, 'skl':2, 'spd':2, 'def':2, 'int':0, 'ppl':-1, 'luk':0}, 
+            'serf':             {'str':1, 'skl':1, 'spd':-1, 'def':0, 'int':-1, 'ppl':2, 'luk':0}, 
+            'king':             {'str':1, 'skl':2, 'spd':-1, 'def':1, 'int':2, 'ppl':2, 'luk':0}, 
+            'queen':            {'str':1, 'skl':2, 'spd':-1, 'def':1, 'int':2, 'ppl':2, 'luk':0},
+            'prince':           {'str':2, 'skl':1, 'spd':2, 'def':2, 'int':0, 'ppl':1, 'luk':-1}, 
+            'princess':         {'str':2, 'skl':1, 'spd':2, 'def':2, 'int':0, 'ppl':1, 'luk':-1}, 
+            'blacksmith':       {'str':3, 'skl':3, 'spd':-1, 'def':2, 'int':0, 'ppl':-1, 'luk':0}, 
+            'wizard':           {'str':-1, 'skl':3, 'spd':0, 'def':2, 'int':1, 'ppl':-1, 'luk':2}, 
+            'dragon rider':     {'str':3, 'skl':2, 'spd':3, 'def':3, 'int':-2, 'ppl':-3, 'luk':-1}, 
+            'priest':           {'str':-1, 'skl':1, 'spd':0, 'def':-1, 'int':3, 'ppl':3, 'luk':1},
+            'thief':            {'str':1, 'skl':2, 'spd':3, 'def':-1, 'int':2, 'ppl':-3, 'luk':2}
+        }
+    else:
+        raise ValueError
 
     # Set name
     fn = r.choice(FIRST_NAMES)
@@ -326,7 +386,7 @@ def main():
     print('Mode:', mode)
     sleep(1)
 
-    name, age, job, strength, skill, speed, defense, intellect, ppl, luck, move = get_player_stats() 
+    name, age, job, strength, skill, speed, defense, intellect, ppl, luck, move = get_player_stats(mode) 
 
     player = Player(name, age, job, strength, skill, speed, defense, intellect, ppl, luck, move)
 
