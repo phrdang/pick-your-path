@@ -51,9 +51,12 @@ Enter 1, 2, or 3: ''')
     return mode
 
 def get_player_stats():
-    # Stat caps
+    # Stat caps after bonuses/handicaps added
+    BONUS_MAX_STAT = 13
+    HANDICAP_MIN_STAT = 2
+    # Stat caps for original random number generation
     MAX_STAT = 10
-    MIN_STAT = 0
+    MIN_STAT = 5
 
     # Name text files
     FN_FILE_NAME = 'first_names.txt'
@@ -66,16 +69,16 @@ def get_player_stats():
     # and their corresponding stat
     # bonuses or handicaps
     jobs_stats = {
-        'unemployed':           {'str':-1, 'skl':-1, 'spd':-1, 'int':1, 'ppl':-1, 'luk':3}, 
-        'CEO':                  {'str':-1, 'skl':1, 'spd':-1, 'int':3, 'ppl':2, 'luk':1}, 
-        'chef':                 {'str':1, 'skl':1, 'spd':1, 'int':-1, 'ppl':0, 'luk':-1}, 
-        'police officer':       {'str':3, 'skl':2, 'spd':1, 'int':0, 'ppl':0, 'luk':-2}, 
-        'fire fighter':         {'str':3, 'skl':2, 'spd':2, 'int':0, 'ppl':0, 'luk':-2}, 
-        'doctor':               {'str':0, 'skl':3, 'spd':0, 'int':3, 'ppl':1, 'luk':1}, 
-        'sales representative': {'str':-1, 'skl':0, 'spd':0, 'int':1, 'ppl':3, 'luk':2}, 
-        'waiter':               {'str':1, 'skl':1, 'spd':1, 'int':-1, 'ppl':1, 'luk':0}, 
-        'teacher':              {'str':-1, 'skl':2, 'spd':0, 'int':2, 'ppl':1, 'luk':1},
-        'fast food worker':     {'str':1, 'skl':0, 'spd':2, 'int':-1, 'ppl':1, 'luk':3}
+        'unemployed':           {'str':-1, 'skl':-1, 'spd':-1, 'def':0, 'int':1, 'ppl':-1, 'luk':3}, 
+        'CEO':                  {'str':-1, 'skl':1, 'spd':-1, 'def':1, 'int':3, 'ppl':2, 'luk':1}, 
+        'chef':                 {'str':1, 'skl':1, 'spd':1, 'def':1, 'int':-1, 'ppl':0, 'luk':-1}, 
+        'police officer':       {'str':3, 'skl':2, 'spd':1, 'def':3, 'int':0, 'ppl':0, 'luk':-2}, 
+        'fire fighter':         {'str':3, 'skl':2, 'spd':2, 'def':2, 'int':0, 'ppl':0, 'luk':-2}, 
+        'doctor':               {'str':0, 'skl':3, 'spd':0, 'def':-1, 'int':3, 'ppl':1, 'luk':1}, 
+        'sales representative': {'str':-1, 'skl':0, 'spd':0, 'def':-1, 'int':1, 'ppl':3, 'luk':2}, 
+        'waiter':               {'str':1, 'skl':1, 'spd':1, 'def':0, 'int':-1, 'ppl':1, 'luk':0}, 
+        'teacher':              {'str':-1, 'skl':2, 'spd':0, 'def':0, 'int':2, 'ppl':1, 'luk':1},
+        'fast food worker':     {'str':1, 'skl':0, 'spd':2, 'def':0, 'int':-1, 'ppl':1, 'luk':3}
     }
 
     # Load names
@@ -97,6 +100,7 @@ def get_player_stats():
     strength = r.randint(MIN_STAT, MAX_STAT)
     skill = r.randint(MIN_STAT, MAX_STAT)
     speed = r.randint(MIN_STAT, MAX_STAT)
+    defense = r.randint(MIN_STAT, MAX_STAT)
     intellect = r.randint(MIN_STAT, MAX_STAT)
     ppl = r.randint(MIN_STAT, MAX_STAT)
     luck = r.randint(MIN_STAT, MAX_STAT)
@@ -107,22 +111,23 @@ def get_player_stats():
     strength += jobs_stats[job]['str'] 
     skill += jobs_stats[job]['skl']
     speed += jobs_stats[job]['spd']
+    defense += jobs_stats[job]['def']
     intellect += jobs_stats[job]['int']
     ppl += jobs_stats[job]['ppl']
     luck += jobs_stats[job]['luk']
 
     # stats list
-    stats = [strength, skill, speed, intellect, ppl, luck]
+    stats = [strength, skill, speed, defense, intellect, ppl, luck]
 
     # Check to make sure stats aren't above or below caps
-    for stat in stats:
-        if stat < MIN_STAT:
-            stat = MIN_STAT
-        if stat > MAX_STAT:
-            stat = MAX_STAT
+    for i in range(0, len(stats)):
+        if stats[i] < HANDICAP_MIN_STAT:
+            stats[i] = HANDICAP_MIN_STAT
+        if stats[i] > BONUS_MAX_STAT:
+            stats[i] = BONUS_MAX_STAT
 
     # Add stats to the stats list
-    return name, age, job, stats[0], stats[1], stats[2], stats[3], stats[4], stats[5], move
+    return name, age, job, stats[0], stats[1], stats[2], stats[3], stats[4], stats[5], stats[6], move
 
 ### CLASSES ###
 
@@ -131,7 +136,7 @@ class Player(object):
     doctsr
     '''
     # Constructor method
-    def __init__(self, name, age, job, strength, skill, speed, intellect, ppl, luck, move):
+    def __init__(self, name, age, job, strength, skill, speed, defense, intellect, ppl, luck, move):
         '''
         doctsr
         '''
@@ -142,6 +147,7 @@ class Player(object):
         self.strength = strength # int from 0-20
         self.skill = skill # int from 0-20
         self.speed = speed # int from 0-20
+        self.defense = defense # int from 0-20
         self.intellect = intellect # int from 0-20
         self.ppl = ppl # int from 0-20
         self.luck = luck # int from 0-20
@@ -192,8 +198,8 @@ class Player(object):
         # Lines of player stats, organized by category
         stats1 = 'IDENTITY\nName: %s | Age: %d | Job: %s' % (self.name, self.age, self.job)
 
-        stats2 = 'STATS\nStrength: %d | Skill: %d | Speed: %d | Intellect: %d | People Skills: %d | Luck: %d' % \
-            (self.strength, self.skill, self.speed, self.intellect, self.ppl, self.luck)
+        stats2 = 'STATS\nStrength: %d | Skill: %d | Speed: %d | Defense: %d | Intellect: %d | People Skills: %d | Luck: %d' % \
+            (self.strength, self.skill, self.speed, self.defense, self.intellect, self.ppl, self.luck)
 
         stats3 = 'STATUS\nMove: %d | Overall Status: %s | Health: %d | Hunger: %d | Thirst: %d | Sleep: %d' % \
             (self.move, self.status[0], self.health, self.hunger, self.thirst, self.sleep)
@@ -320,14 +326,9 @@ def main():
     print('Mode:', mode)
     sleep(1)
 
-    name, age, job, strength, skill, speed, intellect, ppl, luck, move = get_player_stats() 
+    name, age, job, strength, skill, speed, defense, intellect, ppl, luck, move = get_player_stats() 
 
-    player = Player(name, age, job, strength, skill, speed, intellect, ppl, luck, move)
-
-    print(player)
-
-    player.health -= 50
-    player.hunger -= 50
+    player = Player(name, age, job, strength, skill, speed, defense, intellect, ppl, luck, move)
 
     print(player)
 
