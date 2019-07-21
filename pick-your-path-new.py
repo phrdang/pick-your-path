@@ -52,7 +52,7 @@ Enter 1, 2, or 3: ''')
 
 def get_player_stats():
     # Stat caps
-    MAX_STAT = 20
+    MAX_STAT = 10
     MIN_STAT = 0
 
     # Name text files
@@ -94,12 +94,12 @@ def get_player_stats():
     job = r.choice(jobs)
 
     # Set strength, skill, speed, intellect, ppl, luck, and move
-    strength = r.randint(5, 20)
-    skill = r.randint(5, 20)
-    speed = r.randint(5, 20)
-    intellect = r.randint(5, 20)
-    ppl = r.randint(5, 20)
-    luck = r.randint(5, 20)
+    strength = r.randint(MIN_STAT, MAX_STAT)
+    skill = r.randint(MIN_STAT, MAX_STAT)
+    speed = r.randint(MIN_STAT, MAX_STAT)
+    intellect = r.randint(MIN_STAT, MAX_STAT)
+    ppl = r.randint(MIN_STAT, MAX_STAT)
+    luck = r.randint(MIN_STAT, MAX_STAT)
 
     move = r.randint(1, 5)
 
@@ -117,9 +117,9 @@ def get_player_stats():
     # Check to make sure stats aren't above or below caps
     for stat in stats:
         if stat < MIN_STAT:
-            stat = 0
+            stat = MIN_STAT
         if stat > MAX_STAT:
-            stat = 20
+            stat = MAX_STAT
 
     # Add stats to the stats list
     return name, age, job, stats[0], stats[1], stats[2], stats[3], stats[4], stats[5], move
@@ -156,6 +156,7 @@ class Player(object):
         # injured if health < 100
         # gravely wounded if health <= 50
         # dead if health <= 0
+        # zombie if health == -1
         self.hunger = 100
         # hungry if hunger <= 50
         self.thirst = 100
@@ -170,6 +171,7 @@ class Player(object):
         self.gear = {}
         self.weapons = {}
 
+        self.level = 1
         self.exp = 0
 
     # str method
@@ -198,7 +200,7 @@ class Player(object):
 
         stats4 = 'Specific Status: %s' % (self.get_specific_status())
 
-        stats5 = 'OTHER\nGear: %s | Weapons: %s | Experience: %d' % (gear, weapons, self.exp)
+        stats5 = 'OTHER\nGear: %s | Weapons: %s | Level: %d | Experience: %d' % (gear, weapons, self.level, self.exp)
 
         return stats1 + '\n' + stats2 + '\n' + stats3 + '\n' + stats4 + '\n' + stats5
 
@@ -207,7 +209,39 @@ class Player(object):
         '''
         doctsr
         '''
-        if self.health and self.hunger and self.thirst and self.sleep == 100:
+        if self.health == 100 and self.hunger == 100 and self.thirst == 100 and self.sleep == 100:
+            return True
+        else:
+            return False
+    def is_injured(self):
+        '''
+        docstr
+        '''
+        if self.health < 100 and self.health > 50:
+            return True
+        else:
+            return False
+    def is_gravely_wounded(self):
+        '''
+        docstr
+        '''
+        if self.health <= 50 and self.health > 0:
+            return True
+        else:
+            return False
+    def is_dead(self):
+        '''
+        docstr
+        '''
+        if self.health == 0:
+            return True
+        else:
+            return False
+    def is_zombie(self):
+        '''
+        docstr
+        '''
+        if self.health == -1:
             return True
         else:
             return False
@@ -241,10 +275,14 @@ class Player(object):
         doctsr
         '''
         specific_status = ''
-
+        
         if self.is_healthy():
             specific_status += 'healthy '
         else:
+            if self.is_injured():
+                specific_status += 'injured '
+            if self.is_gravely_wounded():
+                specific_status += 'gravely wounded '
             if self.is_hungry():
                 specific_status += 'hungry '
             if self.is_thirsty():
@@ -285,6 +323,11 @@ def main():
     name, age, job, strength, skill, speed, intellect, ppl, luck, move = get_player_stats() 
 
     player = Player(name, age, job, strength, skill, speed, intellect, ppl, luck, move)
+
+    print(player)
+
+    player.health -= 50
+    player.hunger -= 50
 
     print(player)
 
