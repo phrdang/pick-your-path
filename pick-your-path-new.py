@@ -381,6 +381,9 @@ class Gear(Item):
 class Weapon(Item):
     pass
 
+class Inventory(object):
+    pass
+
 
 ### MAIN ###
 
