@@ -13,6 +13,88 @@ https://www.mithrilandmages.com/utilities/MedievalBrowse.php?letter=B&fms=M
 
 ### FUNCTIONS ###
 
+def print_header(mode, user):
+    '''
+    docstr
+    mode args: 
+    'li' = login
+    'mcr' = choose your mode OR create - create or generate
+    'cr' = create - identity OR create - statistics
+    'g' = guide
+    'ch' = chapter
+    'sim' = view player stats, invetory, OR map
+    's' = save
+    'lo' = logout
+    '''
+    DIVIDER = '-' * 100
+    PYP = 'PICK YOUR PATH'
+
+    # Login
+    if mode == 'li':
+        print(DIVIDER)
+        print(PYP + ' ' * 74 + '(X) Exit')
+        print()
+        print(DIVIDER)
+
+        sleep(1)
+        print('Welcome to Pick Your Path!')
+        sleep(1)
+        print('An interactive game where a combination of wise decision-making and a bit of luck will lead to success.')
+        sleep(1)
+        print()
+
+    # Choose Your Mode or Create Your Player - Create or Generate
+    elif mode == 'mcr':
+        print(DIVIDER)
+        print(PYP + ' ' * 42 + 'User: ' + user + ' ' * 7 + '(S) Save' + ' ' * 4 + '(L) Logout')
+        print()
+        print(DIVIDER)
+    
+    # Create Your Player - Identity
+    elif mode == 'cr':
+        print(DIVIDER)
+        print(PYP + ' ' * 42 + 'User: ' + user + ' ' * 7 + '(S) Save' + ' ' * 4 + '(L) Logout')
+        print(' ' * 88 + '(G) Guide')
+        print(DIVIDER)
+
+    # Guide
+    elif mode == 'g':
+        print(DIVIDER)
+        print(PYP + ' ' * 42 + 'User: ' + user + ' ' * 7 + '(S) Save' + ' ' * 4 + '(L) Logout')
+        print(' ' * 76 + '(B) Back' + ' ' * 4 + '(X) Exit')
+        print(DIVIDER)
+
+    # Chapter
+    elif mode == 'ch':
+        print(DIVIDER)
+        print(PYP + ' ' * 42 + 'User: ' + user + ' ' * 7 + '(S) Save' + ' ' * 4 + '(L) Logout')
+        print(' ' * 28 + '(V) View player stats' + ' ' * 7 + '(I) Inventory' + ' ' * 7 + '(M) Map' + ' ' * 5 + '(G) Guide')
+        print(DIVIDER)
+
+    # View Player Stats or Inventory or Map 
+    elif mode == 'sim':
+        print(DIVIDER)
+        print(PYP + ' ' * 42 + 'User: ' + user + ' ' * 7 + '(S) Save' + ' ' * 4 + '(L) Logout')
+        print(' ' * 88 + '(X) Exit')
+        print(DIVIDER)
+    
+    # Save
+    elif mode == 's':
+        print(DIVIDER)
+        print(PYP + ' ' * 42 + 'User: ' + user + ' ' * 7 + '(L) Logout' + ' ' * 2 + '(X) Exit')
+        print()
+        print(DIVIDER)
+
+    # Logout
+    elif mode == 'lo':
+        print(DIVIDER)
+        print(PYP + ' ' * 42 + 'User: ' + user + ' ' * 7 + '(S) Save' + ' ' * 4 + '(X) Exit')
+        print()
+        print(DIVIDER)
+
+    else:
+        raise ValueError
+
 def load_names(file_name, purpose):
     '''
     docstr
@@ -384,6 +466,8 @@ class Weapon(Item):
 class Inventory(object):
     pass
 
+class Zombie(object):
+    pass
 
 ### MAIN ###
 
@@ -392,19 +476,16 @@ def main():
     docstr
     '''
     # Upon startup, welcome player to game
-    print('Welcome to Pick Your Path!')
-    sleep(0.5)
-    print('An interactive game where a combination of wise decision-making and a bit of luck will lead to success.')
-    sleep(0.5)
+    print_header('lo', 'Rebecca')
     # Allow player to choose from different modes
-    mode = choose_mode()
-    print('Mode:', mode)
-    sleep(1)
+    # mode = choose_mode()
+    # print('Mode:', mode)
+    # sleep(1)
 
-    name, age, job, strength, skill, speed, defense, intellect, ppl, luck, move = get_player_stats(mode) 
+    # name, age, job, strength, skill, speed, defense, intellect, ppl, luck, move = get_player_stats(mode) 
 
-    player = Player(name, age, job, strength, skill, speed, defense, intellect, ppl, luck, move)
+    # player = Player(name, age, job, strength, skill, speed, defense, intellect, ppl, luck, move)
 
-    print(player)
+    # print(player)
 
 main()
