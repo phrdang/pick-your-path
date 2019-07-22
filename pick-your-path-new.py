@@ -95,6 +95,120 @@ def print_header(mode, user):
     else:
         raise ValueError
 
+def get_command(valid_input):
+    '''
+    docstr
+    '''
+    valid = ''
+    for i in valid_input:
+        if i == valid_input[len(valid_input)-1]:
+            valid += i
+        elif i == valid_input[len(valid_input)-2]:
+            valid += i + ', or '
+        else:
+            valid += i + ', '
+
+    while True:
+        try:
+            command = input('Command: ').lower()
+            assert command in valid_input
+        except AssertionError:
+            print('Error, please enter ' + valid + '.')
+        else:
+            break
+    
+    return command
+
+def login():
+    '''
+    docstr
+    '''
+    print('LOGIN')
+    print('Do you already have an account?')
+    print('\t(Y) Yes')
+    print('\t(N) No')
+
+    command = get_command(['y', 'n', 'x'])
+
+    if command == 'y':
+        print()
+        print('NOTE: When typing your password, the characters will not display\non the screen for security purposes.')
+        print()
+
+        # FOR TESTING
+        # save_login_info('ph.rdang', 'Hello123')
+
+        login_info = load_login_info()
+
+        counter = 0
+        while True:
+            username = input('Username: ').lower()
+            password = getpass('Password: ')
+
+            print()
+            print('Authenticating...')
+            print()
+            sleep(1)
+
+            if username not in login_info:
+                print('Invalid username.')
+                counter += 1
+            elif login_info[username] != password:
+                print('Invalid password.')
+                counter += 1
+            else:
+                print('Login successful.')
+                break
+
+            if counter > 5:
+                print("It seems like you're having some trouble logging in.")
+                sleep(0.5)
+                print("If you FORGOT your password, type 'f'.")
+                print("If you want to CONTINUE logging in, type 'c'.")
+                print("If you'd like to create a NEW account, type 'n'.")
+
+                command = get_command(['f', 'c', 'n'])
+
+                break
+        # load save files of user
+
+    elif command == 'n':
+        print()
+        print('You are now creating a new account.')
+        
+    elif command == 'x':
+        return 'exit'
+
+def save_login_info(user, pw):
+    '''
+    docstr
+    '''
+    file = open('.login.txt', 'a')
+    file.write(user + ' ' + pw + '\n')
+    file.close()
+
+def load_login_info():
+    '''
+    docstr
+    '''
+    login_info = {}
+
+    file = open('.login.txt', 'r')
+
+    for line in file:
+        # Username and password are separated
+        # by a space, so strip \n and split
+        info = line.rstrip().split()
+        user = info[0]
+        pw = info[1]
+
+        # Add username and password pair to the dict
+        login_info[user] = pw
+
+    file.close()
+    
+    return login_info
+
 def load_names(file_name, purpose):
     '''
     docstr
@@ -476,7 +590,8 @@ def main():
     docstr
     '''
     # Upon startup, welcome player to game
-    print_header('lo', 'Rebecca')
+    print_header('li', 'Rebecca')
+    login()
     # Allow player to choose from different modes
     # mode = choose_mode()
     # print('Mode:', mode)
