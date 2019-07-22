@@ -1,5 +1,5 @@
 ---------------------------------------------------------------------------------------------------- ('-' * 100) username can only be 13 char or less
-PICK YOUR PATH
+PICK YOUR PATH                                                                          (X) Exit
 
 ----------------------------------------------------------------------------------------------------
 Welcome to Pick Your Path!
@@ -310,3 +310,37 @@ Move: 0
 Current location: Countryside
 
 (start next chapter)
+---------------------------------------------------------------------------------------------------- 
+PICK YOUR PATH                                          User: Rebecca       (S) Save    (X) Exit   
+
+----------------------------------------------------------------------------------------------------
+LOGOUT
+
+Are you sure you want to logout? Any suspended data will be lost. 
+    (Y) Yes
+    (N) No
+Command: y
+(return to login)
+---------------------------------------------------------------------------------------------------- 
+PICK YOUR PATH                                          User: Rebecca       (L) Logout  (X) Exit   
+
+----------------------------------------------------------------------------------------------------
+SAVE
+
+Are you sure you want to save?
+    (Y) Yes
+    (N) No
+Command: y
+
+(for new game)
+Since you began a new game, your data will be saved to a new save file. 
+Please enter a name for the save file: save-file-3                          (append .txt if not provided)
+
+Saving...
+Data saved on save-file-3.
+
+Logout or continue playing?
+    (L) Logout
+    (X) Continue playing (Exit Save Menu)
+Command: l 
+(go to logout)
