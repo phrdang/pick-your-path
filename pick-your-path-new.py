@@ -135,9 +135,6 @@ def login():
         print('NOTE: When typing your password, the characters will not display\non the screen for security purposes.')
         print()
 
-        # FOR TESTING
-        # save_login_info('ph.rdang', 'Hello123')
-
         login_info = load_login_info()
 
         counter = 0
@@ -169,6 +166,33 @@ def login():
 
                 command = get_command(['f', 'c', 'n'])
 
+                # Forgot password
+                if command == 'f':
+                    print('You chose forgot your password.')
+                    print('To reset your password, please enter your username.')
+                    
+                    while True:
+                        username = input('Username: ').lower()
+                        if username not in login_info:
+                            print('Username not found.')
+                        else:
+                            break
+
+                    reset_password(username)
+                    login_info = load_login_info()
+
+                    break
+                # Continue logging in
+                elif command == 'c':
+                    print('You chose to continue logging in.')
+                    counter = 0
+                    pass
+                # Create new account
+                elif command == 'n':
+                    print('You chose to create a new account.')
+                    print("Type in 'n' for the next command prompt.")
+                    break
+
                 break
         # load save files of user
 
@@ -178,6 +202,37 @@ def login():
         
     elif command == 'x':
         return 'exit'
+
+def reset_password(user, new_pw):
+    '''
+    Updates the .login.txt file with
+    new login info for specified user.
+
+    user: str, username of the account 
+    the user wants to change the password of
+
+    new_pw: str, new password
+
+    Returns: None
+    '''
+    # Open file in read + write mode
+    file = open('.login.txt', 'r+')
+
+    # Save each line in the file in a list
+    login_info = file.readlines()
+
+    # Find the line in the text file with the
+    # matching username, then update that line
+    # with the new password
+    for i in range(0, len(login_info)-1):
+        if login_info[i].startswith(user):
+            login_info[i] = user + ' ' + new_pw + '\n'
+    
+    # Write the updated login info to the file
+    file.writelines(login_info)
+
+    # Close the file
+    file.close()
 
 def save_login_info(user, pw):
     '''
@@ -591,7 +646,7 @@ def main():
     '''
     # Upon startup, welcome player to game
     print_header('li', 'Rebecca')
-    login()
+    # login()
     # Allow player to choose from different modes
     # mode = choose_mode()
     # print('Mode:', mode)
@@ -602,5 +657,11 @@ def main():
     # player = Player(name, age, job, strength, skill, speed, defense, intellect, ppl, luck, move)
 
     # print(player)
+
+    # save_login_info('ph.rdang', 'Hello123')
+    # save_login_info('rebecca', '12345')
+    # save_login_info('sasha', 'cit20')
+
+    reset_password('rebecca', '789')
 
 main()
