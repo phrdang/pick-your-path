@@ -1,5 +1,6 @@
 import random as r
 from time import sleep
+from getpass import getpass
 
 ### NAME DATABASE CREDITS ###
 '''
@@ -17,18 +18,19 @@ def load_names(file_name, purpose):
     docstr
     '''
     names = []
-    counter = 0
+    # counter = 0
 
     file = open(file_name, 'r')
 
     for name in file:
         names.append(name.rstrip())
-        counter += 1
+        # counter += 1
     
-    if purpose == 'f':
-        print(counter, 'first names loaded.')
-    else:
-        print(counter, 'last names loaded.')
+    # Names counter
+    # if purpose == 'f':
+    #     print(counter, 'first names loaded.')
+    # else:
+    #     print(counter, 'last names loaded.')
     
     file.close()
 
@@ -368,7 +370,17 @@ class Player(object):
     # equip gear
     # equip weapon
     # fight
-    
+
+
+class Item(object):
+    pass
+
+class Gear(Item):
+    pass
+
+class Weapon(Item):
+    pass
+
 
 ### MAIN ###
 
