@@ -232,7 +232,7 @@ def login():
 
                         print("Type in 'y' for the next command prompt and enter your new login info.")
                         break
-                        
+
                     # Continue logging in
                     elif command == 'c':
                         print('You chose to continue logging in.')
@@ -249,27 +249,66 @@ def login():
         elif command == 'n':
             print()
             print('You are now creating a new account.')
+            print()
+
+            create_new_account()
+
             break
             
         elif command == 'x':
             break
             return 'exit'
 
+def create_new_account():
+    '''
+    docstr
+    '''
+    # Set username
+    print('Usernames are case insensitive and CANNOT contain spaces or backslashes.')
+    print('They must also contain at least 1 character and be unique.')
+    while True:
+        username = input('Username: ').lower()
+        if not username:
+            print('Usernames must contain at least 1 character.')
+        elif username.find(' ') != -1:
+            print('Usernames cannot contain spaces.')
+        elif username.find('\\') != -1:
+            print('Usernames cannot contain backslashes.')
+        elif username in load_login_info():
+            print('Username already exists.')
+        else:
+            break
+    
+    # Set password
+    print()
+    password = set_password()
+
+    # Save new login info
+    save_login_info(username, password)
+
+    # Confirmation message
+    print('New account created successfully.') 
+    print('Username: ' + username)
+    print('Password: ' + '*' * len(password))
+
 def set_password():
     '''
     docstr
     '''
     print('Passwords are CASE SENSITIVE and CANNOT contain backslashes or spaces.')
+    print('They must also contain at least 1 character.')
     print('NOTE: When typing your password, the characters will not display\non the screen for security purposes.')
 
     entering_new_pw = True
 
     while entering_new_pw:
         new_pw = getpass('Password: ')
-        if new_pw.find(' ') != -1:
-            print('Passwords cannot contain spaces. Please enter a different password.')
+        if not new_pw:
+            print('Passwords must be at least 1 character long.')
+        elif new_pw.find(' ') != -1:
+            print('Passwords cannot contain spaces.')
         elif new_pw.find('\\') != -1:
-            print('Passwords cannot contain backslashes. Please enter a different password.')
+            print('Passwords cannot contain backslashes.')
         else:
             counter = 0
             while True:
@@ -321,7 +360,9 @@ def reset_password(user, new_pw):
     file.close()
     
     # Confirmation message
-    print('Password reset for user: ' + user)
+    print('Password reset successful.')
+    print('Username: ' + user)
+    print('Password: ' + '*' * len(new_pw))
 
 def save_login_info(user, pw):
     '''
@@ -753,5 +794,6 @@ def main():
     # save_login_info('rebecca', '12345')
     # save_login_info('sasha', 'cit20')
     # reset_password('rebecca', '789')
+    # user: test-user, pass: password
 
 main()
