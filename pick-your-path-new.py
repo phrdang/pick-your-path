@@ -4,18 +4,26 @@ from getpass import getpass
 
 ### NAME DATABASE CREDITS ###
 '''
-ENGLISH FIRST AND LAST NAME:
+ENGLISH FIRST AND LAST NAMES:
 https://github.com/smashew/NameDatabases 
 
-FANTASY FIRST NAMES FOR FEMALE, MALE; LAST NAME:
-https://www.mithrilandmages.com/utilities/MedievalBrowse.php?letter=B&fms=M
+FANTASY FEMALE & MALE FIRST NAMES, AS WELL AS LAST NAMES:
+https://www.mithrilandmages.com/utilities/MedievalBrowse.php?letter=A&fms=F 
 '''
 
 ### FUNCTIONS ###
 
 def print_header(mode, user):
     '''
-    docstr
+    Prints different game headers that
+    display different overall commands,
+    depending on the mode.
+
+    mode: str, the part of the game the
+    user is currently using (see below)
+
+    user: str, the username of the user
+
     mode args: 
     'li' = login
     'mcr' = choose your mode OR create - create or generate
@@ -25,6 +33,8 @@ def print_header(mode, user):
     'sim' = view player stats, invetory, OR map
     's' = save
     'lo' = logout
+
+    Returns: None
     '''
     DIVIDER = '-' * 100
     PYP = 'PICK YOUR PATH'
@@ -97,21 +107,55 @@ def print_header(mode, user):
 
 def get_command(valid_input):
     '''
-    docstr
+    Continuously prompts user to 
+    enter a command and validates 
+    input.
+
+    valid_input: list of lowercase str, 
+    valid user input for that prompt
+
+    Returns: command, lowercase str
     '''
+    # Checks if valid_input is an empty list
+    if len(valid_input) == 0:
+        raise ValueError
+    
+    # Initialize as empty str
+    # The valid var will be printed if
+    # user enters invalid input
     valid = ''
+
+    # Iterate through valid_input list and
+    # add each type of valid input to the 
+    # valid str so that it is readable by user
     for i in valid_input:
-        if i == valid_input[len(valid_input)-1]:
+        # If the current valid input is also
+        # the last item on the valid_input list,
+        # don't concatenate a comma
+        if i == valid_input[-1]:
             valid += i
-        elif i == valid_input[len(valid_input)-2]:
-            valid += i + ', or '
+        # If the current valid input is also
+        # the second to last item on the
+        # valid_input list... 
+        elif i == valid_input[-2]:
+            # Add a comma and 'or' if there
+            # are at least 3 valid options
+            if len(valid_input) > 2:
+                valid += i + ', or '
+            # Add only an 'or' if there are
+            # only 2 valid options
+            else:
+                valid += i + ' or '
+        # Otherwise, add a comma after each valid option
         else:
             valid += i + ', '
 
+    # Continuously ask user for valid input
     while True:
         try:
             command = input('Command: ').lower()
             assert command in valid_input
+        # Display error message if invalid
         except AssertionError:
             print('Error, please enter ' + valid + '.')
         else:
@@ -123,85 +167,125 @@ def login():
     '''
     docstr
     '''
-    print('LOGIN')
-    print('Do you already have an account?')
-    print('\t(Y) Yes')
-    print('\t(N) No')
+    logging_in = True
+    while logging_in:
+        print('LOGIN')
+        print('Do you already have an account?')
+        print('\t(Y) Yes')
+        print('\t(N) No')
 
-    command = get_command(['y', 'n', 'x'])
+        command = get_command(['y', 'n', 'x'])
 
-    if command == 'y':
-        print()
-        print('NOTE: When typing your password, the characters will not display\non the screen for security purposes.')
-        print()
-
-        login_info = load_login_info()
-
-        counter = 0
-        while True:
-            username = input('Username: ').lower()
-            password = getpass('Password: ')
-
+        if command == 'y':
             print()
-            print('Authenticating...')
+            print('NOTE: When typing your password, the characters will not display\non the screen for security purposes.')
             print()
-            sleep(1)
 
-            if username not in login_info:
-                print('Invalid username.')
-                counter += 1
-            elif login_info[username] != password:
-                print('Invalid password.')
-                counter += 1
-            else:
-                print('Login successful.')
-                break
+            login_info = load_login_info()
 
-            if counter > 5:
-                print("It seems like you're having some trouble logging in.")
-                sleep(0.5)
-                print("If you FORGOT your password, type 'f'.")
-                print("If you want to CONTINUE logging in, type 'c'.")
-                print("If you'd like to create a NEW account, type 'n'.")
+            counter = 0
+            while True:
+                username = input('Username: ').lower()
+                password = getpass('Password: ')
 
-                command = get_command(['f', 'c', 'n'])
+                print()
+                print('Authenticating...')
+                print()
+                sleep(1)
 
-                # Forgot password
-                if command == 'f':
-                    print('You chose forgot your password.')
-                    print('To reset your password, please enter your username.')
-                    
-                    while True:
-                        username = input('Username: ').lower()
-                        if username not in login_info:
-                            print('Username not found.')
-                        else:
-                            break
-
-                    reset_password(username)
-                    login_info = load_login_info()
-
-                    break
-                # Continue logging in
-                elif command == 'c':
-                    print('You chose to continue logging in.')
-                    counter = 0
-                    pass
-                # Create new account
-                elif command == 'n':
-                    print('You chose to create a new account.')
-                    print("Type in 'n' for the next command prompt.")
+                if username not in login_info:
+                    print('Invalid username.')
+                    counter += 1
+                elif login_info[username] != password:
+                    print('Invalid password.')
+                    counter += 1
+                else:
+                    print('Login successful.')
+                    logging_in = False
                     break
 
-                break
-        # load save files of user
+                if counter > 5:
+                    print("It seems like you're having some trouble logging in.")
+                    sleep(0.5)
+                    print("(F) I forgot my password and want to reset it")
+                    print("(C) I want to continue logging in")
+                    print("(N) I want to create new account")
 
-    elif command == 'n':
-        print()
-        print('You are now creating a new account.')
-        
-    elif command == 'x':
-        return 'exit'
+                    command = get_command(['f', 'c', 'n'])
+
+                    # Forgot password
+                    if command == 'f':
+                        print('You chose forgot your password.')
+                        print('To reset your password, please enter your username.')
+                        
+                        while True:
+                            username = input('Username: ').lower()
+                            if username not in login_info:
+                                print('Username not found.')
+                            else:
+                                break
+                        
+                        new_pw = set_password()
+
+                        # Reset password
+                        reset_password(username, new_pw)
+
+                        print("Type in 'y' for the next command prompt and enter your new login info.")
+                        break
+                        
+                    # Continue logging in
+                    elif command == 'c':
+                        print('You chose to continue logging in.')
+                        counter = 0
+
+                    # Create new account
+                    elif command == 'n':
+                        print('You chose to create a new account.')
+                        print("Type in 'n' for the next command prompt.")
+                        break
+
+            # load save files of user
+
+        elif command == 'n':
+            print()
+            print('You are now creating a new account.')
+            break
+            
+        elif command == 'x':
+            break
+            return 'exit'
+
+def set_password():
+    '''
+    docstr
+    '''
+    print('Passwords are CASE SENSITIVE and CANNOT contain backslashes or spaces.')
+    print('NOTE: When typing your password, the characters will not display\non the screen for security purposes.')
+
+    entering_new_pw = True
+
+    while entering_new_pw:
+        new_pw = getpass('Password: ')
+        if new_pw.find(' ') != -1:
+            print('Passwords cannot contain spaces. Please enter a different password.')
+        elif new_pw.find('\\') != -1:
+            print('Passwords cannot contain backslashes. Please enter a different password.')
+        else:
+            counter = 0
+            while True:
+                confirm_pw = getpass('Confirm password: ')
+                if confirm_pw == new_pw:
+                    entering_new_pw = False
+                    break
+                else:
+                    counter += 1
+                    if counter < 4:
+                        print('Passwords do not match, please try confirming them again.')
+                    else:
+                        print('Passwords still do not match, please enter a new password and confirm that password instead.')
+                        break
+
+    return new_pw
 
 def reset_password(user, new_pw):
     '''
@@ -215,8 +299,8 @@ def reset_password(user, new_pw):
 
     Returns: None
     '''
-    # Open file in read + write mode
-    file = open('.login.txt', 'r+')
+    # Open file in read mode
+    file = open('.login.txt', 'r')
 
     # Save each line in the file in a list
     login_info = file.readlines()
@@ -228,11 +312,16 @@ def reset_password(user, new_pw):
         if login_info[i].startswith(user):
             login_info[i] = user + ' ' + new_pw + '\n'
     
-    # Write the updated login info to the file
-    file.writelines(login_info)
-
     # Close the file
     file.close()
+    
+    # Write the updated login info to the file
+    file = open('.login.txt', 'w')
+    file.writelines(login_info)
+    file.close()
+    
+    # Confirmation message
+    print('Password reset for user: ' + user)
 
 def save_login_info(user, pw):
     '''
@@ -646,7 +735,8 @@ def main():
     '''
     # Upon startup, welcome player to game
     print_header('li', 'Rebecca')
-    # login()
+    login()
+
     # Allow player to choose from different modes
     # mode = choose_mode()
     # print('Mode:', mode)
@@ -658,10 +748,10 @@ def main():
 
     # print(player)
 
+    # FOR TESTING ONLY
     # save_login_info('ph.rdang', 'Hello123')
     # save_login_info('rebecca', '12345')
     # save_login_info('sasha', 'cit20')
-
-    reset_password('rebecca', '789')
+    # reset_password('rebecca', '789')
 
 main()
