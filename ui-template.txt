@@ -2,6 +2,9 @@
 PICK YOUR PATH
 
 ----------------------------------------------------------------------------------------------------
+Welcome to Pick Your Path!
+An interactive game where a combination of wise decision-making and a bit of luck will lead to success.
+
 LOGIN
 Do you already have an account?
     (Y) Yes
@@ -51,7 +54,7 @@ Command: 1
 You chose to create your own player.
 ---------------------------------------------------------------------------------------------------- 
 PICK YOUR PATH                                          User: Rebecca       (S) Save    (L) Logout   
-                                                                                        (G) Guide       21 tabs to G 
+                                                                                        (G) Guide       (21 tabs)
 ----------------------------------------------------------------------------------------------------
 CREATE YOUR PLAYER - IDENTITY
 
@@ -144,7 +147,166 @@ Luck: 10
 Move has been randomly set to 3.
 ---------------------------------------------------------------------------------------------------- 
 PICK YOUR PATH                                          User: Rebecca       (S) Save    (L) Logout   
-                            (V) View player stats       (I) Inventory       (M) Map     (G) Guide    7 to V, 2 to I, 2 to M, 2 to G    
+                            (V) View player stats       (I) Inventory       (M) Map     (G) Guide    (7 to V, 2 to I, 2 to M, 2 to G)    
 ----------------------------------------------------------------------------------------------------
+CHAPTER 1: THE INFECTION
+[narration]
+[dialogue]
+[choice]
+Command: [input]
+---------------------------------------------------------------------------------------------------- 
+PICK YOUR PATH                                          User: Rebecca       (S) Save    (L) Logout   
+                                                                                        (X) Exit       (21 tabs)
+----------------------------------------------------------------------------------------------------
+VIEW PLAYER STATS 
 
+--- Identity ---
+Name: Rebecca Dang
+Age: 35
+Job: police officer
 
+--- Statistics ---
+Str: 10         Skl: 10         Spd: 10         (2 tabs between each)
+Def: 5          Int: 5          Ppl: 10
+Luk: 10 
+
+--- Status --- 
+Overall: alive
+Specific: injured, hungry, thirsty, sleepy
+
+Health: 75 / 100
+Hunger: 50 / 100
+Thirst: 35 / 100
+Sleep: 15 / 100
+
+Move: 2
+
+--- Other ---
+Level: 5
+Experience: 54 / 100
+
+Gear Equipped: kevlar vest            (equip 2 gear and/or 2 weapons at a time)
+Weapons Equipped: pistol, knife       
+
+Command: x
+---------------------------------------------------------------------------------------------------- 
+PICK YOUR PATH                                          User: Rebecca       (S) Save    (L) Logout   
+                                                                                        (X) Exit       (21 tabs)
+----------------------------------------------------------------------------------------------------
+INVENTORY
+
+Storage: 
+
+--- Gear ---
+NAME                    QUANTITY        DESCRIPTION                     WORTH / each        (5, 2, 6)
+kevlar vest             1               +3 Def against bullets          $500                
+binoculars              1               +1 Skl                          $150
+door key                2               opens locked doors              $50
+oxygen mask             1               +10 Health                      $100
+apple                   5               +5 Hunger                       $25
+water bottle            3               +10 Thirst                      $30
+
+--- Weapons ---
+NAME                    QUANTITY        USES LEFT       DESCRIPTION                 DAMAGE          WORTH / each             (5, 2, 2, 5, 3)
+pistol                  1               16              Shoots bullets              20              $1000
+knife                   1               infinite        Used to stab or cut         5               $250
+
+--- Equipped ---
+Gear: kevlar vest, [EMPTY]               (equip 2 gear and/or 2 weapons at a time)
+Weapons: pistol, knife
+
+Enter 'e' to equip gear or a weapon.
+Command: e 
+Enter the name of the gear or weapon you would like to equip.
+Gear or weapon name: binoculars
+Binoculars has been equipped.
+
+--- Equipped ---
+Gear: kevlar vest, binoculars               (print gear or weapons again if they changed too)
+Weapons: pistol, knife
+
+Enter 'e' to equip gear or a weapon.
+Command: x 
+---------------------------------------------------------------------------------------------------- 
+PICK YOUR PATH                                          User: Rebecca       (S) Save    (L) Logout   
+                                                                                        (X) Exit       (21 tabs)
+----------------------------------------------------------------------------------------------------
+MAP             (full Zombie Apocalypse map displayed)      (??? if not explored, ALL CAPS if current location)
+
+(LOCATION MAP)
+
+METROPOLIS --> Countryside --> Forest --> Hospital
+                    |                         |
+                    V                         V
+                Union City --> Warehouse --> San Francisco --> Quarantine
+                    |                         ^
+                    V                         | 
+                Port Kiris (change) ----------|
+                    |
+                    V
+                Ship
+                    |
+                    V
+                Laboratory
+
+(CHAPTER MAP)
+
+Ch. 1 --> Ch. 2 --> Ch. 3 --> Ch. 4a ----|
+                    |                    |
+                    V                    V
+                Ch. 4b --> Ch. 5b --> Ch. 5a OR Ch. 6a --> Ch. 7a
+                    |                    ^
+                    V                    | 
+                Ch. 5c ------------------|
+                    |
+                    V
+                Ch. 6b
+                    |
+                    V
+                Ch. 7b
+
+(MOVE PTS MAP)
+
+0 --> 2 --> 1 --> 2 ----|
+            |           |
+            V           V
+            2 --> 1 --> 3 --> 2
+            |           ^
+            V           | 
+            1 ----------|
+            |
+            V
+            1
+            |
+            V
+            3
+
+Move: 2
+Current location: Metropolis
+Next destination(s): 
+LOCATION            MOVE PTS NEEDED
+Countryside         2
+
+Enter 'm' to move to a different location. 
+Command: m
+
+Enter a valid next destination (see above) or the name of a location that
+you have already traveled to.
+New location: Countryside
+
+Moving to COUNTRYSIDE uses up 2 move points. You currently have 2 move points.
+
+Once you move to a new destination, you will be locked in that chapter.
+
+Moving to an old destination will give you access to shops in that location,
+but will not lock you in that location.
+
+Are you sure you want to move to COUNTRYSIDE? 
+    (Y) Yes
+    (N) No
+Command: y
+
+Move: 0
+Current location: Countryside
+
+(start next chapter)
