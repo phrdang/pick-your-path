@@ -4,16 +4,18 @@ from getpass import getpass
 
 ### NAME DATABASE CREDITS ###
 '''
-ENGLISH FIRST AND LAST NAMES:
+ENGLISH NAMES:
 https://github.com/smashew/NameDatabases 
 
-FANTASY FEMALE & MALE FIRST NAMES, AS WELL AS LAST NAMES:
+FANTASY NAMES:
 https://www.mithrilandmages.com/utilities/MedievalBrowse.php?letter=A&fms=F 
 '''
 
+VERSION = 0.1
+
 ### FUNCTIONS ###
 
-def print_header(mode, user):
+def print_header(mode, user=''):
     '''
     Prints different game headers that
     display different overall commands,
@@ -26,8 +28,9 @@ def print_header(mode, user):
 
     mode args: 
     'li' = login
-    'mcr' = choose your mode OR create - create or generate
-    'cr' = create - identity OR create - statistics
+    'm' = choose your mode
+    'crg' = create - create or generate
+    'cris' = create - identity OR create - statistics
     'g' = guide
     'ch' = chapter
     'sim' = view player stats, invetory, OR map
@@ -53,15 +56,22 @@ def print_header(mode, user):
         sleep(1)
         print()
 
-    # Choose Your Mode or Create Your Player - Create or Generate
-    elif mode == 'mcr':
+    # Choose Your Mode
+    elif mode == 'm':
+        print(DIVIDER)
+        print(PYP + ' ' * 42 + 'User: ' + user + ' ' * 19 + '(L) Logout')
+        print()
+        print(DIVIDER)
+
+    # Create Your Player - Create or Generate
+    elif mode == 'crg':
         print(DIVIDER)
         print(PYP + ' ' * 42 + 'User: ' + user + ' ' * 7 + '(S) Save' + ' ' * 4 + '(L) Logout')
         print()
         print(DIVIDER)
     
-    # Create Your Player - Identity
-    elif mode == 'cr':
+    # Create Your Player - Identity or Create Your Player - Statistics
+    elif mode == 'cris':
         print(DIVIDER)
         print(PYP + ' ' * 42 + 'User: ' + user + ' ' * 7 + '(S) Save' + ' ' * 4 + '(L) Logout')
         print(' ' * 88 + '(G) Guide')
@@ -103,7 +113,16 @@ def print_header(mode, user):
         print(DIVIDER)
 
     else:
-        raise ValueError
+        raise ValueError('''Invalid mode argument. Valid mode arguments: 
+    'li' = login
+    'm' = choose your mode
+    'crg' = create - create or generate
+    'cris' = create - identity OR create - statistics
+    'g' = guide
+    'ch' = chapter
+    'sim' = view player stats, invetory, OR map
+    's' = save
+    'lo' = logout''')
 
 def get_command(valid_input):
     '''
@@ -118,7 +137,7 @@ def get_command(valid_input):
     '''
     # Checks if valid_input is an empty list
     if len(valid_input) == 0:
-        raise ValueError
+        raise ValueError('valid_input cannot be an empty list')
     
     # Initialize as empty str
     # The valid var will be printed if
@@ -167,6 +186,8 @@ def login():
     '''
     docstr
     '''
+    print_header('li')
+
     logging_in = True
     while logging_in:
         print('LOGIN')
@@ -244,21 +265,24 @@ def login():
                         print("Type in 'n' for the next command prompt.")
                         break
 
-            # load save files of user
+            # load save files of user ### STILL NEED TO CODE THIS
+            return username
 
         elif command == 'n':
             print()
             print('You are now creating a new account.')
             print()
 
-            create_new_account()
+            username = create_new_account()
 
-            break
+            if username != '$__cancel__':
+                return username
+                break
             
         elif command == 'x':
+            return '$__exit__'
             break
-            return 'exit'
-
+            
 def create_new_account():
     '''
     docstr
@@ -266,6 +290,8 @@ def create_new_account():
     # Set username
     print('Usernames are case insensitive and CANNOT contain spaces or backslashes.')
     print('They must also contain at least 1 character and be unique.')
+    print("Enter 'c' to cancel.")
+
     while True:
         username = input('Username: ').lower()
         if not username:
@@ -276,6 +302,13 @@ def create_new_account():
             print('Usernames cannot contain backslashes.')
         elif username in load_login_info():
             print('Username already exists.')
+        elif username == '$__exit__' or username == '$__cancel__':
+            print('Reserved, please choose a different username.')
+        elif username == 'c':
+            print('Canceling...')
+            print()
+            return '$__cancel__'
+            break
         else:
             break
     
@@ -290,6 +323,8 @@ def create_new_account():
     print('New account created successfully.') 
     print('Username: ' + username)
     print('Password: ' + '*' * len(password))
+
+    return username
 
 def set_password():
     '''
@@ -417,30 +452,37 @@ def load_names(file_name, purpose):
 
     return names
 
-def choose_mode():
+def choose_mode(user):
     '''
     docstr
     '''
-    while True:
-        mode = input('''Choose a mode:
+    print_header('m', user)
+    print('CHOOSE YOUR MODE')
+    print()
+    print('''Choose a mode:
 
     (1) Zombie Apocalypse
     (2) Medieval Fantasy
     (3) Natural Disaster
 
-Enter 1, 2, or 3: ''')
-        if mode == '1':
-            mode = 'Zombie Apocalypse'
-            break
-        elif mode == '2':
-            mode = 'Medieval Fantasy'
-            break
-        elif mode == '3':
-            mode = 'Natural Disaster'
-            break
-        else:
-            print('Error, please enter 1, 2, or 3.')
-    return mode
+''')
+    
+    mode = get_command(['1', '2', '3', 'l'])
+    
+    if mode == '1':
+        mode = 'Zombie Apocalypse'
+        print('Mode:', mode)
+    elif mode == '2':
+        mode = 'Medieval Fantasy'
+        print('Mode:', mode)
+    elif mode == '3':
+        mode = 'Natural Disaster'
+        print('Mode:', mode)
+    elif mode == 'l':
+        return 'logout'
+    else:
+        raise ValueError("Invalid command. Valid commands: '1', '2', '3', 'l'")
+
 
 def get_player_stats(mode):
     '''
@@ -526,7 +568,7 @@ def get_player_stats(mode):
             'thief':            {'str':1, 'skl':2, 'spd':3, 'def':-1, 'int':2, 'ppl':-3, 'luk':2}
         }
     else:
-        raise ValueError
+        raise ValueError("Invalid mode. Valid modes: 'Zombie Apocalypse', 'Medieval Fantasy', 'Natural Disaster'")
 
     # Set name
     fn = r.choice(FIRST_NAMES)
@@ -571,6 +613,50 @@ def get_player_stats(mode):
 
     # Add stats to the stats list
     return name, age, job, stats[0], stats[1], stats[2], stats[3], stats[4], stats[5], stats[6], move
+
+def print_credits():
+    '''
+    Prints credits for the program.
+
+    Returns: None
+    '''
+    # Ask user if they want to view the credits
+    print('''Would you like to view the credits? 
+    (Y) Yes
+    (N) No''')
+
+    wants_credits = get_command(['y', 'n'])
+    if wants_credits == 'y':
+        wants_credits = True
+    else:
+        wants_credits = False
+
+    # Prints credits if user said yes, otherwise skip to exit
+    if wants_credits:
+        sleep(1)
+
+        print('Author: Rebecca Dang')
+        print('Version: ' + str(VERSION))
+        print()
+        sleep(1)
+
+        print('Language: Python 3')
+        print('Text Editor: Visual Studio Code')
+        print()
+        sleep(1)
+
+        print('SPECIAL THANKS')
+        print('Name databases:')
+        print('English names: https://github.com/smashew/NameDatabases')
+        print('Fantasy names: https://www.mithrilandmages.com/utilities/MedievalBrowse.php?letter=A&fms=F')
+        sleep(1)
+        print('People:')
+        print('My family and CS teachers')
+    
+    sleep(1)
+    print()
+    print('Thank you for using Pick Your Path!')
+    print('You have succesfully exited the program.')
 
 ### CLASSES ###
 
@@ -774,13 +860,27 @@ def main():
     '''
     docstr
     '''
-    # Upon startup, welcome player to game
-    print_header('li', 'Rebecca')
-    login()
+    while True:
+        logging_in = True
+        while logging_in:
+            user = login()
+            if user == '$__exit__':
+                print('Exiting program... ')
+                print_credits()
+                break
+            else:
+                logging_in = False
+        if user == '$__exit__':
+            break
 
-    # Allow player to choose from different modes
-    # mode = choose_mode()
-    # print('Mode:', mode)
+        # Allow player to choose from different modes
+        mode = choose_mode(user)
+        if mode == 'logout':
+            print('Logging out...')
+        else:
+            break
+        
+    
     # sleep(1)
 
     # name, age, job, strength, skill, speed, defense, intellect, ppl, luck, move = get_player_stats(mode) 
@@ -795,5 +895,6 @@ def main():
     # save_login_info('sasha', 'cit20')
     # reset_password('rebecca', '789')
     # user: test-user, pass: password
+    # hi, 12345
 
 main()
