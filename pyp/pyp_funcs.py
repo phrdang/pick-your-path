@@ -488,14 +488,14 @@ def get_player_stats(mode):
     ### Name text files
 
     # English first and last names
-    FN_FILE_NAME = 'first_names.txt'
-    LN_FILE_NAME = 'last_names.txt'
+    FN_FILE_NAME = '/Users/rebeccadang/Desktop/Visual Studio Code/pick-your-path/names/first_names.txt'
+    LN_FILE_NAME = '/Users/rebeccadang/Desktop/Visual Studio Code/pick-your-path/names/last_names.txt'
 
     # Fantasy first and last names
-    FANTASY_MALE_FN_FILE_NAME = 'fantasy_m_fn.txt'
-    FANTASY_FEMALE_FN_FILE_NAME = 'fantasy_f_fn.txt'
-    FANTASY_MIXED_FN_FILE_NAME = 'fantasy_o_fn.txt'
-    FANTASY_LN_FILE_NAME = 'fantasy_ln.txt'
+    FANTASY_MALE_FN_FILE_NAME = '/Users/rebeccadang/Desktop/Visual Studio Code/pick-your-path/names/fantasy_m_fn.txt'
+    FANTASY_FEMALE_FN_FILE_NAME = '/Users/rebeccadang/Desktop/Visual Studio Code/pick-your-path/names/fantasy_f_fn.txt'
+    FANTASY_MIXED_FN_FILE_NAME = '/Users/rebeccadang/Desktop/Visual Studio Code/pick-your-path/names/fantasy_o_fn.txt'
+    FANTASY_LN_FILE_NAME = '/Users/rebeccadang/Desktop/Visual Studio Code/pick-your-path/names/fantasy_ln.txt'
 
     if mode == 'Zombie Apocalypse' or mode == 'Natural Disaster':
         # Load names

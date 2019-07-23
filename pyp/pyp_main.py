@@ -35,22 +35,13 @@ def main():
             print('Logging out...')
         else:
             break
-        
-    
-    # sleep(1)
 
-    # name, age, job, strength, skill, speed, defense, intellect, ppl, luck, move = get_player_stats(mode) 
-
-    # player = Player(name, age, job, strength, skill, speed, defense, intellect, ppl, luck, move)
-
-    # print(player)
-
-    # FOR TESTING ONLY
+    # LOGIN INFO
     # save_login_info('ph.rdang', 'Hello123')
     # save_login_info('rebecca', '12345')
     # save_login_info('sasha', 'cit20')
     # reset_password('rebecca', '789')
-    # user: test-user, pass: password
+    # test-user, password
     # hi, 12345
 
 main()
