@@ -469,8 +469,6 @@ def choose_mode(user):
         print('Mode:', mode)
     elif mode == 'l':
         return 'logout'
-    else:
-        raise ValueError("Invalid command. Valid commands: '1', '2', '3', 'l'")
 
 
 def get_player_stats(mode):
