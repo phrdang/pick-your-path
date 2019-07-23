@@ -1,3 +1,7 @@
+import random as r
+from time import sleep
+from getpass import getpass
+
 VERSION = 0.1
 
 def print_header(mode, user=''):

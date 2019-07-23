@@ -1,9 +1,5 @@
-import random as r
-from time import sleep
-from getpass import getpass
-
-import 'pyp-classes' as c
-import 'pyp-funcs' as f
+import pyp_classes as c
+import pyp_funcs as f
 
 ### NAME DATABASE CREDITS ###
 '''

@@ -1,3 +1,6 @@
+import random as r
+from time import sleep
+
 VERSION = 0.1
 
 class Player(object):
