@@ -2,6 +2,9 @@ import random as r
 from time import sleep
 from getpass import getpass
 
+import 'pyp-classes' as c
+import 'pyp-funcs' as f
+
 ### NAME DATABASE CREDITS ###
 '''
 ENGLISH NAMES:
@@ -20,10 +23,10 @@ def main():
     while True:
         logging_in = True
         while logging_in:
-            user = login()
+            user = f.login()
             if user == '$__exit__':
                 print('Exiting program... ')
-                print_credits()
+                f.print_credits()
                 break
             else:
                 logging_in = False
@@ -31,7 +34,7 @@ def main():
             break
 
         # Allow player to choose from different modes
-        mode = choose_mode(user)
+        mode = f.choose_mode(user)
         if mode == 'logout':
             print('Logging out...')
         else:
