@@ -1,5 +1,5 @@
-import pyp_classes as c
-import pyp_funcs as f
+from . import pyp_classes as c
+from . import pyp_funcs as f
 
 ### NAME DATABASE CREDITS ###
 '''
