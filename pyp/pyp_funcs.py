@@ -30,6 +30,7 @@ def print_header(mode, user=''):
     '''
     DIVIDER = '-' * 100
     PYP = 'PICK YOUR PATH'
+    SPACES = 14 - len(user)
 
     # Login
     if mode == 'li':
@@ -48,56 +49,56 @@ def print_header(mode, user=''):
     # Choose Your Mode
     elif mode == 'm':
         print(DIVIDER)
-        print(PYP + ' ' * 42 + 'User: ' + user + ' ' * 19 + '(L) Logout')
+        print(PYP + ' ' * 42 + 'User: ' + user + ' ' * (26-len(user)) + '(L) Logout')
         print()
         print(DIVIDER)
 
     # Create Your Player - Create or Generate
     elif mode == 'crg':
         print(DIVIDER)
-        print(PYP + ' ' * 42 + 'User: ' + user + ' ' * 7 + '(S) Save' + ' ' * 4 + '(L) Logout')
+        print(PYP + ' ' * 42 + 'User: ' + user + ' ' * SPACES + '(S) Save' + ' ' * 4 + '(L) Logout')
         print()
         print(DIVIDER)
     
     # Create Your Player - Identity or Create Your Player - Statistics
     elif mode == 'cris':
         print(DIVIDER)
-        print(PYP + ' ' * 42 + 'User: ' + user + ' ' * 7 + '(S) Save' + ' ' * 4 + '(L) Logout')
+        print(PYP + ' ' * 42 + 'User: ' + user + ' ' * SPACES + '(S) Save' + ' ' * 4 + '(L) Logout')
         print(' ' * 88 + '(G) Guide')
         print(DIVIDER)
 
     # Guide
     elif mode == 'g':
         print(DIVIDER)
-        print(PYP + ' ' * 42 + 'User: ' + user + ' ' * 7 + '(S) Save' + ' ' * 4 + '(L) Logout')
+        print(PYP + ' ' * 42 + 'User: ' + user + ' ' * SPACES + '(S) Save' + ' ' * 4 + '(L) Logout')
         print(' ' * 76 + '(B) Back' + ' ' * 4 + '(X) Exit')
         print(DIVIDER)
 
     # Chapter
     elif mode == 'ch':
         print(DIVIDER)
-        print(PYP + ' ' * 42 + 'User: ' + user + ' ' * 7 + '(S) Save' + ' ' * 4 + '(L) Logout')
+        print(PYP + ' ' * 42 + 'User: ' + user + ' ' * SPACES + '(S) Save' + ' ' * 4 + '(L) Logout')
         print(' ' * 28 + '(V) View player stats' + ' ' * 7 + '(I) Inventory' + ' ' * 7 + '(M) Map' + ' ' * 5 + '(G) Guide')
         print(DIVIDER)
 
     # View Player Stats or Inventory or Map 
     elif mode == 'sim':
         print(DIVIDER)
-        print(PYP + ' ' * 42 + 'User: ' + user + ' ' * 7 + '(S) Save' + ' ' * 4 + '(L) Logout')
+        print(PYP + ' ' * 42 + 'User: ' + user + ' ' * SPACES + '(S) Save' + ' ' * 4 + '(L) Logout')
         print(' ' * 88 + '(X) Exit')
         print(DIVIDER)
     
     # Save
     elif mode == 's':
         print(DIVIDER)
-        print(PYP + ' ' * 42 + 'User: ' + user + ' ' * 7 + '(L) Logout' + ' ' * 2 + '(X) Exit')
+        print(PYP + ' ' * 42 + 'User: ' + user + ' ' * SPACES + '(L) Logout' + ' ' * 2 + '(X) Exit')
         print()
         print(DIVIDER)
 
     # Logout
     elif mode == 'lo':
         print(DIVIDER)
-        print(PYP + ' ' * 42 + 'User: ' + user + ' ' * 7 + '(S) Save' + ' ' * 4 + '(X) Exit')
+        print(PYP + ' ' * 42 + 'User: ' + user + ' ' * SPACES + '(S) Save' + ' ' * 4 + '(X) Exit')
         print()
         print(DIVIDER)
 
@@ -278,7 +279,7 @@ def create_new_account():
     '''
     # Set username
     print('Usernames are case insensitive and CANNOT contain spaces or backslashes.')
-    print('They must also contain at least 1 character and be unique.')
+    print('They must also contain 1-13 characters and be unique.')
     print("Enter 'c' to cancel.")
 
     while True:
@@ -291,6 +292,8 @@ def create_new_account():
             print('Usernames cannot contain backslashes.')
         elif username in load_login_info():
             print('Username already exists.')
+        elif len(username) > 13:
+            print('Usernames cannot be longer than 13 characters.')
         elif username == '$__exit__' or username == '$__cancel__':
             print('Reserved, please choose a different username.')
         elif username == 'c':

@@ -3,7 +3,7 @@ from time import sleep
 
 VERSION = 0.1
 
-class Player(object):
+class Player:
     '''
     doctsr
     '''
@@ -182,7 +182,7 @@ class Player(object):
     # fight
 
 
-class Item(object):
+class Item:
     pass
 
 class Gear(Item):
@@ -191,8 +191,8 @@ class Gear(Item):
 class Weapon(Item):
     pass
 
-class Inventory(object):
+class Inventory:
     pass
 
-class Zombie(object):
+class Zombie:
     pass

@@ -1,5 +1,3 @@
-NOTE: NEED TO GENERALIZE FOR LENGTH OF USER TO NEXT COMMAND
-
 ---------------------------------------------------------------------------------------------------- ('-' * 100) username can only be 13 char or less
 PICK YOUR PATH                                                                          (X) Exit
 
@@ -89,7 +87,7 @@ Would you like to view the guide?
     (N) No
 Enter Y or N: Y [or G]
 ---------------------------------------------------------------------------------------------------- 
-PICK YOUR PATH                                          User: Rebecca       (S) Save    (L) Logout   
+PICK YOUR PATH                                          User: 123456789abcd (S) Save    (L) Logout   
                                                                             (B) Back    (X) Exit     
 ----------------------------------------------------------------------------------------------------
 GUIDE 
