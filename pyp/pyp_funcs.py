@@ -1,8 +1,10 @@
 import random as r
 from time import sleep
 from getpass import getpass
+from . import pyp_classes as c
 
 VERSION = 0.1
+RESERVED = ['$__exit__', '$__cancel__', '$__save__', '$__logout__', '$__inventory__', '$__map__', '$__guide__', '$__back__', '$__view__']
 
 def print_header(mode, user=''):
     '''
@@ -255,7 +257,10 @@ def login():
                         print("Type in 'n' for the next command prompt.")
                         break
 
-            # load save files of user ### STILL NEED TO CODE THIS
+            ### STILL NEEDS TO BE CODED ###
+            # Load save files of user 
+            load_save_file('file.txt') # needs file name as arg
+
             return username
 
         elif command == 'n':
@@ -294,7 +299,7 @@ def create_new_account():
             print('Username already exists.')
         elif len(username) > 13:
             print('Usernames cannot be longer than 13 characters.')
-        elif username == '$__exit__' or username == '$__cancel__':
+        elif username in RESERVED:
             print('Reserved, please choose a different username.')
         elif username == 'c':
             print('Canceling...')
@@ -421,28 +426,11 @@ def load_login_info():
     
     return login_info
 
-def load_names(file_name, purpose):
+def load_save_file(file_name):
     '''
     docstr
     '''
-    names = []
-    # counter = 0
-
-    file = open(file_name, 'r')
-
-    for name in file:
-        names.append(name.rstrip())
-        # counter += 1
-    
-    # Names counter
-    # if purpose == 'f':
-    #     print(counter, 'first names loaded.')
-    # else:
-    #     print(counter, 'last names loaded.')
-    
-    file.close()
-
-    return names
+    pass
 
 def choose_mode(user):
     '''
@@ -473,6 +461,61 @@ def choose_mode(user):
     elif mode == 'l':
         return 'logout'
 
+def create_player(mode, user):
+    '''
+    docstr
+    '''
+    print_header('crg', user)
+    print('CREATE YOUR PLAYER - CREATE OR GENERATE')
+
+    print('Create your own player or generate random player?')
+    print()
+    print('\t(1) Create my own player')
+    print('\t(2) Generate random player')
+    print()
+
+    command = get_command(['1', '2', 's', 'l'])
+
+    if command == '1':
+        print('You chose to create your own player.')
+        player = user_creates_player(mode)
+
+        ### Edit to make it more aesthetic later
+        print()
+        print(player)
+        print()
+        return player
+    elif command == '2':
+        print('You chose to generate a random player.')
+        player = generate_player(mode)
+
+        ### Edit to make it more aesthetic later
+        print()
+        print(player)
+        print()
+        return player
+    elif command == 's':
+        return '$__save__'
+    elif command == 'l':
+        return '$__logout__'
+    else:
+        raise ValueError
+    
+def user_creates_player(mode):
+    '''
+    docstr
+    '''
+    pass
+
+def generate_player(mode):
+    '''
+    docstr
+    '''
+    # Get player stats randomly
+    name, age, job, strength, skill, speed, defense, intellect, ppl, luck, move = get_player_stats(mode)
+    # Create new Player object using those stats
+    player = c.Player(name, age, job, strength, skill, speed, defense, intellect, ppl, luck, move)
+    return player
 
 def get_player_stats(mode):
     '''
@@ -603,6 +646,29 @@ def get_player_stats(mode):
 
     # Add stats to the stats list
     return name, age, job, stats[0], stats[1], stats[2], stats[3], stats[4], stats[5], stats[6], move
+
+def load_names(file_name, purpose):
+    '''
+    docstr
+    '''
+    names = []
+    # counter = 0
+
+    file = open(file_name, 'r')
+
+    for name in file:
+        names.append(name.rstrip())
+        # counter += 1
+    
+    # Names counter
+    # if purpose == 'f':
+    #     print(counter, 'first names loaded.')
+    # else:
+    #     print(counter, 'last names loaded.')
+    
+    file.close()
+
+    return names
 
 def print_credits():
     '''
