@@ -37,29 +37,25 @@ def print_header(mode, user=''):
     # Login
     if mode == 'li':
         print(DIVIDER)
-        print(PYP + ' ' * 74 + '(X) Exit')
-        print()
+        print(PYP + ' ' * 74 + '(X) Exit', end='\n')
         print(DIVIDER)
 
         sleep(1)
         print('Welcome to Pick Your Path!')
         sleep(1)
-        print('An interactive game where a combination of wise decision-making and a bit of luck will lead to success.')
+        print('An interactive game where a combination of wise decision-making and a bit of luck will lead to success.', end='\n')
         sleep(1)
-        print()
 
     # Choose Your Mode
     elif mode == 'm':
         print(DIVIDER)
-        print(PYP + ' ' * 42 + 'User: ' + user + ' ' * (26-len(user)) + '(L) Logout')
-        print()
+        print(PYP + ' ' * 42 + 'User: ' + user + ' ' * (26-len(user)) + '(L) Logout', end='\n')
         print(DIVIDER)
 
     # Create Your Player - Create or Generate
     elif mode == 'crg':
         print(DIVIDER)
-        print(PYP + ' ' * 42 + 'User: ' + user + ' ' * SPACES + '(S) Save' + ' ' * 4 + '(L) Logout')
-        print()
+        print(PYP + ' ' * 42 + 'User: ' + user + ' ' * SPACES + '(S) Save' + ' ' * 4 + '(L) Logout', end='\n')
         print(DIVIDER)
     
     # Create Your Player - Identity or Create Your Player - Statistics
@@ -93,15 +89,13 @@ def print_header(mode, user=''):
     # Save
     elif mode == 's':
         print(DIVIDER)
-        print(PYP + ' ' * 42 + 'User: ' + user + ' ' * SPACES + '(L) Logout' + ' ' * 2 + '(X) Exit')
-        print()
+        print(PYP + ' ' * 42 + 'User: ' + user + ' ' * SPACES + '(L) Logout' + ' ' * 2 + '(X) Exit', end='\n')
         print(DIVIDER)
 
     # Logout
     elif mode == 'lo':
         print(DIVIDER)
-        print(PYP + ' ' * 42 + 'User: ' + user + ' ' * SPACES + '(S) Save' + ' ' * 4 + '(X) Exit')
-        print()
+        print(PYP + ' ' * 42 + 'User: ' + user + ' ' * SPACES + '(S) Save' + ' ' * 4 + '(X) Exit', end='\n')
         print(DIVIDER)
 
     else:
@@ -191,8 +185,7 @@ def login():
 
         if command == 'y':
             print()
-            print('NOTE: When typing your password, the characters will not display\non the screen for security purposes.')
-            print()
+            print('NOTE: When typing your password, the characters will not display\non the screen for security purposes.', end='\n')
 
             login_info = load_login_info()
 
@@ -202,8 +195,7 @@ def login():
                 password = getpass('Password: ')
 
                 print()
-                print('Authenticating...')
-                print()
+                print('Authenticating...', end='\n')
                 sleep(1)
 
                 if username not in login_info:
@@ -265,8 +257,7 @@ def login():
 
         elif command == 'n':
             print()
-            print('You are now creating a new account.')
-            print()
+            print('You are now creating a new account.', end='\n')
 
             username = create_new_account()
 
@@ -285,7 +276,7 @@ def create_new_account():
     # Set username
     print('Usernames are case insensitive and CANNOT contain spaces or backslashes.')
     print('They must also contain 1-13 characters and be unique.')
-    print("Enter 'c' to cancel.")
+    print("Enter 'c' to cancel.", end='\n')
 
     while True:
         username = input('Username: ').lower()
@@ -302,8 +293,7 @@ def create_new_account():
         elif username in RESERVED:
             print('Reserved, please choose a different username.')
         elif username == 'c':
-            print('Canceling...')
-            print()
+            print('Canceling...', end='\n')
             return '$__cancel__'
             break
         else:
@@ -437,8 +427,7 @@ def choose_mode(user):
     docstr
     '''
     print_header('m', user)
-    print('CHOOSE YOUR MODE')
-    print()
+    print('CHOOSE YOUR MODE', end='\n')
     print('''Choose a mode:
 
     (1) Zombie Apocalypse
@@ -468,22 +457,20 @@ def create_player(mode, user):
     print_header('crg', user)
     print('CREATE YOUR PLAYER - CREATE OR GENERATE')
 
-    print('Create your own player or generate random player?')
-    print()
+    print('Create your own player or generate random player?', end='\n')
     print('\t(1) Create my own player')
-    print('\t(2) Generate random player')
-    print()
+    print('\t(2) Generate random player', end='\n')
 
     command = get_command(['1', '2', 's', 'l'])
 
     if command == '1':
         print('You chose to create your own player.')
-        player = user_creates_player(mode)
+        player = user_creates_player(mode, user)
 
         ### Edit to make it more aesthetic later
         print()
-        print(player)
-        print()
+        print(player, end='\n')
+        
         return player
     elif command == '2':
         print('You chose to generate a random player.')
@@ -491,8 +478,7 @@ def create_player(mode, user):
 
         ### Edit to make it more aesthetic later
         print()
-        print(player)
-        print()
+        print(player, end='\n')
         return player
     elif command == 's':
         return '$__save__'
@@ -501,11 +487,94 @@ def create_player(mode, user):
     else:
         raise ValueError
     
-def user_creates_player(mode):
+def user_creates_player(mode, user):
     '''
     docstr
     '''
-    pass
+    ZOMBIE_JOBS = []
+    FANTASY_JOBS = []
+    DISASTER_JOBS = []
+
+    if mode == 'Zombie Apocalypse':
+        JOBS = ZOMBIE_JOBS
+    elif mode == 'Medieval Fantasy':
+        # Jobs list is picked later (see below)
+        pass
+    elif mode == 'Natural Disaster':
+        JOBS = DISASTER_JOBS
+    else:
+        raise ValueError("Invalid mode argument. Valid modes: 'Zombie Apocalypse', 'Medieval Fantasy', 'Natural Disaster'")
+
+    print_header('cris', user)
+    print('CREATE YOUR PLAYER - IDENTITY', end='\n')
+    print("*** Once you press 'Enter', the input you give cannot be undone. ***", end='\n')
+
+    while True:
+        first_name = input('First name: ').capitalize()
+        if first_name:
+            break
+        else:
+            print('Please enter a first name.')
+    
+    while True:
+        last_name = input('Last name: ').capitalize()
+        if last_name:
+            break
+        else:
+            print('Please enter a last name.')
+
+    name = first_name + ' ' + last_name
+    
+    while True:
+        try:
+            age = int(input('Age (from 20-65): '))
+            assert age >= 20 and age <= 65
+        except ValueError:
+            print('Please enter an integer.')
+        except AssertionError:
+            print('Please enter an age from 20-65.')
+        else:
+            break
+
+    if mode == 'Medieval Fantasy':
+        while True:
+            try:
+                gender = input("Gender (m, f, or o): ").lower()
+                assert gender in ['m', 'f', 'o']
+            except AssertionError:
+                print('Please enter m, f, or o for male, female, or other, respectively.')
+            else:
+                break
+        if gender == 'm':
+            JOBS = ['court jester', 'knight', 'serf', 'king', 'prince', 'blacksmith', 'wizard', 'dragon rider', 'priest', 'thief']
+        elif gender == 'f':
+            JOBS = ['court jester', 'knight', 'serf', 'queen', 'princess', 'blacksmith', 'wizard', 'dragon rider', 'priest', 'thief']
+        else:
+            JOBS = ['court jester', 'knight', 'serf', 'king', 'queen', 'prince', 'princess', 'blacksmith', 'wizard', 'dragon rider', 'priest', 'thief']
+
+    counter = 1
+    pick_job = {}
+    for job in JOBS:
+        print('(%d) %s' % counter, job.capitalize())
+        pick_job[counter] = job
+        counter += 1
+
+    while True:
+        try:
+            job = int(input('Job (enter a number): '))
+            assert job >= 1 and job <= len(pick_job)
+        except ValueError:
+            print('Please enter a number (see above).')
+        except AssertionError:
+            print('Please enter a number (see above).')
+        else:
+            break
+
+    job = pick_job[job]
+
+    print('You chose to be a ' + job + '.', end='\n')
+
+
 
 def generate_player(mode):
     '''
@@ -692,13 +761,11 @@ def print_credits():
         sleep(1)
 
         print('Author: Rebecca Dang')
-        print('Version: ' + str(VERSION))
-        print()
+        print('Version: ' + str(VERSION), end='\n')
         sleep(1)
 
         print('Language: Python 3')
-        print('Text Editor: Visual Studio Code')
-        print()
+        print('Text Editor: Visual Studio Code', end='\n')
         sleep(1)
 
         print('SPECIAL THANKS')
