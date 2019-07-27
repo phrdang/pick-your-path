@@ -1,7 +1,7 @@
 import random as r
 from time import sleep
 from getpass import getpass
-from . import pyp_classes as c
+import pyp_classes as c
 
 VERSION = 0.1
 RESERVED = ['$__exit__', '$__cancel__', '$__save__', '$__logout__', '$__inventory__', '$__map__', '$__guide__', '$__back__', '$__view__']
@@ -37,25 +37,25 @@ def print_header(mode, user=''):
     # Login
     if mode == 'li':
         print(DIVIDER)
-        print(PYP + ' ' * 74 + '(X) Exit', end='\n')
+        print(PYP + ' ' * 74 + '(X) Exit', end='\n\n')
         print(DIVIDER)
 
         sleep(1)
         print('Welcome to Pick Your Path!')
         sleep(1)
-        print('An interactive game where a combination of wise decision-making and a bit of luck will lead to success.', end='\n')
+        print('An interactive game where a combination of wise decision-making and a bit of luck will lead to success.', end='\n\n')
         sleep(1)
 
     # Choose Your Mode
     elif mode == 'm':
         print(DIVIDER)
-        print(PYP + ' ' * 42 + 'User: ' + user + ' ' * (26-len(user)) + '(L) Logout', end='\n')
+        print(PYP + ' ' * 42 + 'User: ' + user + ' ' * (26-len(user)) + '(L) Logout', end='\n\n')
         print(DIVIDER)
 
     # Create Your Player - Create or Generate
     elif mode == 'crg':
         print(DIVIDER)
-        print(PYP + ' ' * 42 + 'User: ' + user + ' ' * SPACES + '(S) Save' + ' ' * 4 + '(L) Logout', end='\n')
+        print(PYP + ' ' * 42 + 'User: ' + user + ' ' * SPACES + '(S) Save' + ' ' * 4 + '(L) Logout', end='\n\n')
         print(DIVIDER)
     
     # Create Your Player - Identity or Create Your Player - Statistics
@@ -89,13 +89,13 @@ def print_header(mode, user=''):
     # Save
     elif mode == 's':
         print(DIVIDER)
-        print(PYP + ' ' * 42 + 'User: ' + user + ' ' * SPACES + '(L) Logout' + ' ' * 2 + '(X) Exit', end='\n')
+        print(PYP + ' ' * 42 + 'User: ' + user + ' ' * SPACES + '(L) Logout' + ' ' * 2 + '(X) Exit', end='\n\n')
         print(DIVIDER)
 
     # Logout
     elif mode == 'lo':
         print(DIVIDER)
-        print(PYP + ' ' * 42 + 'User: ' + user + ' ' * SPACES + '(S) Save' + ' ' * 4 + '(X) Exit', end='\n')
+        print(PYP + ' ' * 42 + 'User: ' + user + ' ' * SPACES + '(S) Save' + ' ' * 4 + '(X) Exit', end='\n\n')
         print(DIVIDER)
 
     else:
@@ -185,7 +185,7 @@ def login():
 
         if command == 'y':
             print()
-            print('NOTE: When typing your password, the characters will not display\non the screen for security purposes.', end='\n')
+            print('NOTE: When typing your password, the characters will not display\non the screen for security purposes.', end='\n\n')
 
             login_info = load_login_info()
 
@@ -195,7 +195,7 @@ def login():
                 password = getpass('Password: ')
 
                 print()
-                print('Authenticating...', end='\n')
+                print('Authenticating...', end='\n\n')
                 sleep(1)
 
                 if username not in login_info:
@@ -257,7 +257,7 @@ def login():
 
         elif command == 'n':
             print()
-            print('You are now creating a new account.', end='\n')
+            print('You are now creating a new account.', end='\n\n')
 
             username = create_new_account()
 
@@ -276,10 +276,10 @@ def create_new_account():
     # Set username
     print('Usernames are case insensitive and CANNOT contain spaces or backslashes.')
     print('They must also contain 1-13 characters and be unique.')
-    print("Enter 'c' to cancel.", end='\n')
+    print("Enter 'c' to cancel.", end='\n\n')
 
     while True:
-        username = input('Username: ').lower()
+        username = input('Username: ').strip().lower()
         if not username:
             print('Usernames must contain at least 1 character.')
         elif username.find(' ') != -1:
@@ -293,7 +293,7 @@ def create_new_account():
         elif username in RESERVED:
             print('Reserved, please choose a different username.')
         elif username == 'c':
-            print('Canceling...', end='\n')
+            print('Canceling...', end='\n\n')
             return '$__cancel__'
             break
         else:
@@ -427,26 +427,26 @@ def choose_mode(user):
     docstr
     '''
     print_header('m', user)
-    print('CHOOSE YOUR MODE', end='\n')
-    print('''Choose a mode:
-
-    (1) Zombie Apocalypse
-    (2) Medieval Fantasy
-    (3) Natural Disaster
-
-''')
+    print('CHOOSE YOUR MODE', end='\n\n')
+    print('Choose a mode:', end='\n\n')
+    print('\t(1) Zombie Apocalypse')
+    print('\t(2) Medieval Fantasy')
+    print('\t(3) Natural Disaster', end='\n\n')
     
     mode = get_command(['1', '2', '3', 'l'])
     
     if mode == '1':
         mode = 'Zombie Apocalypse'
         print('Mode:', mode)
+        return 'Zombie Apocalypse'
     elif mode == '2':
         mode = 'Medieval Fantasy'
         print('Mode:', mode)
+        return 'Medieval Fantasy'
     elif mode == '3':
         mode = 'Natural Disaster'
         print('Mode:', mode)
+        return 'Natural Disaster'
     elif mode == 'l':
         return 'logout'
 
@@ -457,19 +457,19 @@ def create_player(mode, user):
     print_header('crg', user)
     print('CREATE YOUR PLAYER - CREATE OR GENERATE')
 
-    print('Create your own player or generate random player?', end='\n')
+    print('Create your own player or generate random player?', end='\n\n')
     print('\t(1) Create my own player')
-    print('\t(2) Generate random player', end='\n')
+    print('\t(2) Generate random player', end='\n\n')
 
     command = get_command(['1', '2', 's', 'l'])
 
     if command == '1':
         print('You chose to create your own player.')
-        player = user_creates_player(mode, user)
+        player = enter_player_stats(mode, user)
 
         ### Edit to make it more aesthetic later
         print()
-        print(player, end='\n')
+        print(player, end='\n\n')
         
         return player
     elif command == '2':
@@ -478,7 +478,8 @@ def create_player(mode, user):
 
         ### Edit to make it more aesthetic later
         print()
-        print(player, end='\n')
+        print(player, end='\n\n')
+        
         return player
     elif command == 's':
         return '$__save__'
@@ -487,13 +488,13 @@ def create_player(mode, user):
     else:
         raise ValueError
     
-def user_creates_player(mode, user):
+def enter_player_stats(mode, user):
     '''
     docstr
     '''
-    ZOMBIE_JOBS = []
-    FANTASY_JOBS = []
-    DISASTER_JOBS = []
+    ### IDENTITY ###
+    ZOMBIE_JOBS = ['unemployed', 'CEO', 'chef', 'police officer', 'fire fighter', 'doctor', 'sales representative', 'waiter', 'teacher', 'fast food worker']
+    DISASTER_JOBS = ['job1'] # add later
 
     if mode == 'Zombie Apocalypse':
         JOBS = ZOMBIE_JOBS
@@ -506,18 +507,18 @@ def user_creates_player(mode, user):
         raise ValueError("Invalid mode argument. Valid modes: 'Zombie Apocalypse', 'Medieval Fantasy', 'Natural Disaster'")
 
     print_header('cris', user)
-    print('CREATE YOUR PLAYER - IDENTITY', end='\n')
-    print("*** Once you press 'Enter', the input you give cannot be undone. ***", end='\n')
+    print('CREATE YOUR PLAYER - IDENTITY', end='\n\n')
+    print("*** Once you press 'Enter', the input you give cannot be undone. ***", end='\n\n')
 
     while True:
-        first_name = input('First name: ').capitalize()
+        first_name = input('First name: ').strip().capitalize()
         if first_name:
             break
         else:
             print('Please enter a first name.')
     
     while True:
-        last_name = input('Last name: ').capitalize()
+        last_name = input('Last name: ').strip().capitalize()
         if last_name:
             break
         else:
@@ -554,11 +555,15 @@ def user_creates_player(mode, user):
 
     counter = 1
     pick_job = {}
+    
     for job in JOBS:
-        print('(%d) %s' % counter, job.capitalize())
+        if job != 'CEO':
+            print('\t(%d) %s' % (counter, job.capitalize()))
+        else:
+            print('\t(%d) %s' % (counter, job))
         pick_job[counter] = job
         counter += 1
-
+    
     while True:
         try:
             job = int(input('Job (enter a number): '))
@@ -572,9 +577,137 @@ def user_creates_player(mode, user):
 
     job = pick_job[job]
 
-    print('You chose to be a ' + job + '.', end='\n')
+    print('You chose to be a ' + job + '.', end='\n\n')
 
+    ### ASK IF USER WANTS GUIDE ###
 
+    ### STATISTICS ###
+    print_header('cris', user)
+    print('CREATE YOUR PLAYER - STATISTICS')
+    print('You have 60 points to distribute as you wish between 7 types of statistics.')
+    print("Enter the number of points you'd like to give for each statistic.")
+    print('They must be between 5 and 10.', end='\n\n')
+    print("*** Once you press 'Enter', the input you give cannot be undone. ***", end='\n\n')
+    
+    points_left = 60
+
+    while True:
+        while True:
+            try:
+                strength = int(input('Strength: '))
+                assert strength >= 5 and strength <= 10
+            except ValueError:
+                print('Please enter an integer.')
+            except AssertionError:
+                print('Please enter an integer from 5-10.')
+            else:
+                break
+        
+        points_left -= strength
+        print('You have %d points left.' % (points_left))
+        
+        while True:
+            try:
+                skill = int(input('Skill: '))
+                assert skill >= 5 and skill <= 10
+            except ValueError:
+                print('Please enter an integer.')
+            except AssertionError:
+                print('Please enter an integer from 5-10.')
+            else:
+                break
+        
+        points_left -= skill
+        print('You have %d points left.' % (points_left))
+        
+        while True:
+            try:
+                speed = int(input('Speed: '))
+                assert speed >= 5 and speed <= 10
+            except ValueError:
+                print('Please enter an integer.')
+            except AssertionError:
+                print('Please enter an integer from 5-10.')
+            else:
+                break
+
+        points_left -= speed
+        print('You have %d points left.' % (points_left))
+        
+        while True:
+            try:
+                defense = int(input('Defense: '))
+                assert defense >= 5 and defense <= 10
+            except ValueError:
+                print('Please enter an integer.')
+            except AssertionError:
+                print('Please enter an integer from 5-10.')
+            else:
+                break
+        
+        points_left -= defense
+        print('You have %d points left.' % (points_left))
+        
+        while True:
+            try:
+                intellect = int(input('Intellect: '))
+                assert intellect >= 5 and intellect <= 10
+            except ValueError:
+                print('Please enter an integer.')
+            except AssertionError:
+                print('Please enter an integer from 5-10.')
+            else:
+                break
+        
+        points_left -= intellect
+        print('You have %d points left.' % (points_left))
+        
+        while True:
+            try:
+                ppl = int(input('People Skills: '))
+                assert ppl >= 5 and ppl <= 10
+            except ValueError:
+                print('Please enter an integer.')
+            except AssertionError:
+                print('Please enter an integer from 5-10.')
+            else:
+                break
+
+        points_left -= ppl
+        print('You have %d points left.' % (points_left))
+        
+        while True:
+            try:
+                luck = int(input('Luck: '))
+                assert luck >= 5 and luck <= 10
+            except ValueError:
+                print('Please enter an integer.')
+            except AssertionError:
+                print('Please enter an integer from 5-10.')
+            else:
+                break
+        
+        points_left -= luck
+
+        if points_left < 0:
+            print('You spent more than 60 pts, please try again.')
+            print('Resetting statsitics...')
+            sleep(1)
+            points_left = 60
+        elif points_left > 0:
+            print('You still have %d points to spend. Please try again.' % points_left)
+            print('Resetting statsitics...')
+            sleep(1)
+            points_left = 60
+        elif points_left == 0:
+            break
+
+    move = r.randint(1, 5)
+    print()
+    print('Move has been randomly set to %d.' % move)
+
+    player = c.Player(name, age, job, strength, skill, speed, defense, intellect, ppl, luck, move)
+    return player
 
 def generate_player(mode):
     '''
@@ -746,9 +879,9 @@ def print_credits():
     Returns: None
     '''
     # Ask user if they want to view the credits
-    print('''Would you like to view the credits? 
-    (Y) Yes
-    (N) No''')
+    print('Would you like to view the credits?')
+    print('\t(Y) Yes')
+    print('\t(N) No')
 
     wants_credits = get_command(['y', 'n'])
     if wants_credits == 'y':
@@ -761,11 +894,11 @@ def print_credits():
         sleep(1)
 
         print('Author: Rebecca Dang')
-        print('Version: ' + str(VERSION), end='\n')
+        print('Version: ' + str(VERSION), end='\n\n')
         sleep(1)
 
         print('Language: Python 3')
-        print('Text Editor: Visual Studio Code', end='\n')
+        print('Text Editor: Visual Studio Code', end='\n\n')
         sleep(1)
 
         print('SPECIAL THANKS')

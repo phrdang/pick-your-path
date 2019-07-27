@@ -1,5 +1,5 @@
-from . import pyp_classes as c
-from . import pyp_funcs as f
+import pyp_classes as c
+import pyp_funcs as f
 
 ### NAME DATABASE CREDITS ###
 '''
@@ -34,7 +34,8 @@ def main():
         if mode == 'logout':
             print('Logging out...')
         else:
-            break
+            f.create_player(mode, user)
+
 
     # LOGIN INFO
     # save_login_info('ph.rdang', 'Hello123')
