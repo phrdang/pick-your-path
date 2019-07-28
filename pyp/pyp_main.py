@@ -31,10 +31,16 @@ def main():
 
         # Allow player to choose from different modes
         mode = f.choose_mode(user)
-        if mode == 'logout':
+        if mode == '$__logout__':
             print('Logging out...')
         else:
-            f.create_player(mode, user)
+            player = f.create_player(mode, user)
+            if player == '$__save__':
+                pass # CODE THIS
+            elif player == '$__logout__':
+                pass # CODE THIS
+            elif player.isinstance(c.Player):
+                pass # CODE THIS
 
 
     # LOGIN INFO
