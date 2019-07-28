@@ -74,7 +74,7 @@ Choose a job:
     (8)
     (9)
     (10)
-Job: 5
+Job (enter a number): 5
 You chose to be a police officer.
 
 You have 60 points to distribute as you wish between 7 types of statistics. 
@@ -85,7 +85,7 @@ what each statistic affects during gameplay.
 Would you like to view the guide?
     (Y) Yes
     (N) No
-Enter Y or N: Y [or G]
+Command: Y [or G]
 ---------------------------------------------------------------------------------------------------- 
 PICK YOUR PATH                                          User: 123456789abcd (S) Save    (L) Logout   
                                                                             (B) Back    (X) Exit     
