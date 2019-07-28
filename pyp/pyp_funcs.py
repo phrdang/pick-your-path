@@ -1,41 +1,47 @@
+from getpass import getpass
 import random as r
 from time import sleep
-from getpass import getpass
+
 import pyp_classes as c
 
 VERSION = 0.1
 RESERVED = ['$__exit__', '$__cancel__', '$__save__', '$__logout__', '$__inventory__', '$__map__', '$__guide__', '$__back__', '$__view__']
 
-def print_header(mode, user=''):
+def print_header(interface, user=''):
     '''
     Prints different game headers that
     display different overall commands,
     depending on the mode.
-
-    mode: str, the part of the game the
-    user is currently using (see below)
-
-    user: str, the username of the user
-
-    mode args: 
-    'li' = login
-    'm' = choose your mode
-    'crg' = create - create or generate
-    'cris' = create - identity OR create - statistics
-    'g' = guide
-    'ch' = chapter
-    'sim' = view player stats, invetory, OR map
-    's' = save
-    'lo' = logout
-
-    Returns: None
+    
+    Arguments:
+        interface {str} -- the interface the user is currently using
+        
+        Valid interface args:
+        'li' = login,
+        'm' = choose your mode,
+        'crg' = create - create or generate,
+        'cris' = create - identity OR create - statistics,
+        'g' = guide,
+        'ch' = chapter,
+        'sim' = view player stats, invetory, OR map,
+        's' = save,
+        'lo' = logout
+    
+    Keyword Arguments:
+        user {str} -- username of the current user (default: '')
+    
+    Raises:
+        ValueError: If interface argument is invalid
+    
+    Returns:
+        {NoneType}
     '''
     DIVIDER = '-' * 100
     PYP = 'PICK YOUR PATH'
     SPACES = 14 - len(user)
 
     # Login
-    if mode == 'li':
+    if interface == 'li':
         print(DIVIDER)
         print(PYP + ' ' * 74 + '(X) Exit', end='\n\n')
         print(DIVIDER)
@@ -47,59 +53,59 @@ def print_header(mode, user=''):
         sleep(1)
 
     # Choose Your Mode
-    elif mode == 'm':
+    elif interface == 'm':
         print(DIVIDER)
         print(PYP + ' ' * 42 + 'User: ' + user + ' ' * (26-len(user)) + '(L) Logout', end='\n\n')
         print(DIVIDER)
 
     # Create Your Player - Create or Generate
-    elif mode == 'crg':
+    elif interface == 'crg':
         print(DIVIDER)
         print(PYP + ' ' * 42 + 'User: ' + user + ' ' * SPACES + '(S) Save' + ' ' * 4 + '(L) Logout', end='\n\n')
         print(DIVIDER)
     
     # Create Your Player - Identity or Create Your Player - Statistics
-    elif mode == 'cris':
+    elif interface == 'cris':
         print(DIVIDER)
         print(PYP + ' ' * 42 + 'User: ' + user + ' ' * SPACES + '(S) Save' + ' ' * 4 + '(L) Logout')
         print(' ' * 88 + '(G) Guide')
         print(DIVIDER)
 
     # Guide
-    elif mode == 'g':
+    elif interface == 'g':
         print(DIVIDER)
         print(PYP + ' ' * 42 + 'User: ' + user + ' ' * SPACES + '(S) Save' + ' ' * 4 + '(L) Logout')
         print(' ' * 76 + '(B) Back' + ' ' * 4 + '(X) Exit')
         print(DIVIDER)
 
     # Chapter
-    elif mode == 'ch':
+    elif interface == 'ch':
         print(DIVIDER)
         print(PYP + ' ' * 42 + 'User: ' + user + ' ' * SPACES + '(S) Save' + ' ' * 4 + '(L) Logout')
         print(' ' * 28 + '(V) View player stats' + ' ' * 7 + '(I) Inventory' + ' ' * 7 + '(M) Map' + ' ' * 5 + '(G) Guide')
         print(DIVIDER)
 
     # View Player Stats or Inventory or Map 
-    elif mode == 'sim':
+    elif interface == 'sim':
         print(DIVIDER)
         print(PYP + ' ' * 42 + 'User: ' + user + ' ' * SPACES + '(S) Save' + ' ' * 4 + '(L) Logout')
         print(' ' * 88 + '(X) Exit')
         print(DIVIDER)
     
     # Save
-    elif mode == 's':
+    elif interface == 's':
         print(DIVIDER)
         print(PYP + ' ' * 42 + 'User: ' + user + ' ' * SPACES + '(L) Logout' + ' ' * 2 + '(X) Exit', end='\n\n')
         print(DIVIDER)
 
     # Logout
-    elif mode == 'lo':
+    elif interface == 'lo':
         print(DIVIDER)
         print(PYP + ' ' * 42 + 'User: ' + user + ' ' * SPACES + '(S) Save' + ' ' * 4 + '(X) Exit', end='\n\n')
         print(DIVIDER)
 
     else:
-        raise ValueError('''Invalid mode argument. Valid mode arguments: 
+        raise ValueError('''Invalid interface argument. Valid interface arguments: 
     'li' = login
     'm' = choose your mode
     'crg' = create - create or generate
@@ -115,12 +121,18 @@ def get_command(valid_input):
     Continuously prompts user to 
     enter a command and validates 
     input.
-
-    valid_input: list of lowercase str, 
-    valid user input for that prompt
-
-    Returns: command, lowercase str
+    
+    Arguments:
+        valid_input {list} -- valid user input for that prompt, 
+        elements are lowercase strings
+    
+    Raises:
+        ValueError: If valid_input is an empty list
+    
+    Returns:
+        command {str} -- lowercase, the user's valid command
     '''
+
     # Checks if valid_input is an empty list
     if len(valid_input) == 0:
         raise ValueError('valid_input cannot be an empty list')
@@ -170,12 +182,24 @@ def get_command(valid_input):
 
 def login():
     '''
-    docstr
+    Login interface. Lets user login to their
+    existing account or create a new account, 
+    as well as exit the program. If they login,
+    they will also have the option to start a new
+    game or continue an existing one from save
+    file(s).
+    
+    Returns:
+        username {str} -- username of the current user 
+        or exit reserved string
     '''
+    # Print login header
     print_header('li')
 
+    # Logging in while loop
     logging_in = True
     while logging_in:
+        # Ask user whether they have an account
         print('LOGIN')
         print('Do you already have an account?')
         print('\t(Y) Yes')
@@ -183,12 +207,15 @@ def login():
 
         command = get_command(['y', 'n', 'x'])
 
+        # Enter login credentials
         if command == 'y':
             print()
             print('NOTE: When typing your password, the characters will not display\non the screen for security purposes.', end='\n\n')
 
+            # Load valid usernames/passwords onto login_info dict
             login_info = load_login_info()
 
+            # Keep track of login attempts
             counter = 0
             while True:
                 username = input('Username: ').lower()
@@ -198,17 +225,23 @@ def login():
                 print('Authenticating...', end='\n\n')
                 sleep(1)
 
+                # If username doesn't exist, try again
                 if username not in login_info:
                     print('Invalid username.')
                     counter += 1
+                # If password doesn't match username, try again
                 elif login_info[username] != password:
                     print('Invalid password.')
                     counter += 1
+                # If credentials valid, stop logging in
                 else:
                     print('Login successful.')
                     logging_in = False
                     break
 
+                # If user has attempted to login more than 5 times,
+                # prompt user to reset password, keep trying  to login,
+                # or create a new account
                 if counter > 5:
                     print("It seems like you're having some trouble logging in.")
                     sleep(0.5)
@@ -223,6 +256,7 @@ def login():
                         print('You chose forgot your password.')
                         print('To reset your password, please enter your username.')
                         
+                        # Ask user for account's username
                         while True:
                             username = input('Username: ').lower()
                             if username not in login_info:
@@ -230,9 +264,11 @@ def login():
                             else:
                                 break
                         
+                        # User resets password
                         new_pw = set_password()
 
-                        # Reset password
+                        # Replace old username/password pair on the
+                        # .login.txt file with the new one
                         reset_password(username, new_pw)
 
                         print("Type in 'y' for the next command prompt and enter your new login info.")
@@ -241,6 +277,7 @@ def login():
                     # Continue logging in
                     elif command == 'c':
                         print('You chose to continue logging in.')
+                        # Reset login attempts counter
                         counter = 0
 
                     # Create new account
@@ -255,29 +292,39 @@ def login():
 
             return username
 
+        # Create a new account
         elif command == 'n':
             print()
             print('You are now creating a new account.', end='\n\n')
 
             username = create_new_account()
 
+            # If username is not a reserved command, stop
+            # logging in (else, continue loop)
             if username != '$__cancel__':
                 return username
                 break
-            
+
+        # Exit program  
         elif command == 'x':
             return '$__exit__'
             break
             
 def create_new_account():
     '''
-    docstr
+    Creates a new account. Ensures username and password 
+    meet all requirements and saves the login info onto 
+    the .login.txt file. 
+    
+    Returns:
+        username {str} -- username of the new account or cancel reserved string
     '''
     # Set username
     print('Usernames are case insensitive and CANNOT contain spaces or backslashes.')
     print('They must also contain 1-13 characters and be unique.')
     print("Enter 'c' to cancel.", end='\n\n')
 
+    # Validate username
     while True:
         username = input('Username: ').strip().lower()
         if not username:
@@ -296,8 +343,6 @@ def create_new_account():
             print('Canceling...', end='\n\n')
             return '$__cancel__'
             break
-        else:
-            break
     
     # Set password
     print()
@@ -315,14 +360,18 @@ def create_new_account():
 
 def set_password():
     '''
-    docstr
+    Set the password of a given account. Ensures that
+    password meets all requirements. 
+    
+    Returns:
+        new_pw {str} -- new password
     '''
     print('Passwords are CASE SENSITIVE and CANNOT contain backslashes or spaces.')
     print('They must also contain at least 1 character.')
     print('NOTE: When typing your password, the characters will not display\non the screen for security purposes.')
 
     entering_new_pw = True
-
+    # Password input validation
     while entering_new_pw:
         new_pw = getpass('Password: ')
         if not new_pw:
@@ -333,6 +382,8 @@ def set_password():
             print('Passwords cannot contain backslashes.')
         else:
             counter = 0
+            # If password meets all requirements, ask
+            # user to confirm it
             while True:
                 confirm_pw = getpass('Confirm password: ')
                 if confirm_pw == new_pw:
@@ -351,14 +402,15 @@ def set_password():
 def reset_password(user, new_pw):
     '''
     Updates the .login.txt file with
-    new login info for specified user.
-
-    user: str, username of the account 
-    the user wants to change the password of
-
-    new_pw: str, new password
-
-    Returns: None
+    new login info for specified user. 
+    
+    Arguments:
+        user {str} -- username of account which 
+        password has changed,
+        new_pw {str} -- new password to save
+    
+    Returns:
+        {NoneType}
     '''
     # Open file in read mode
     file = open('.login.txt', 'r')
@@ -388,15 +440,29 @@ def reset_password(user, new_pw):
 
 def save_login_info(user, pw):
     '''
-    docstr
+    Saves new account login info onto
+    the .login.txt file.
+    
+    Arguments:
+        user {str} -- username,
+        pw {str} -- password
+    
+    Returns:
+        {NoneType}
     '''
     file = open('.login.txt', 'a')
+    # Write user/pw pair on a new line, 
+    # separated by a space
     file.write(user + ' ' + pw + '\n')
     file.close()
 
 def load_login_info():
     '''
-    docstr
+    Reads the .login.txt file and creates 
+    a dict with username/password pairs.
+    
+    Returns:
+        login_info {dict} -- key: username {str}, value: password {str}
     '''
     login_info = {}
 
@@ -404,10 +470,8 @@ def load_login_info():
 
     for line in file:
         # Username and password are separated
-        # by a space, so strip \n and split
-        info = line.rstrip().split()
-        user = info[0]
-        pw = info[1]
+        # by a space, so strip '\n' and split
+        user, pw = line.rstrip().split()
 
         # Add username and password pair to the dict
         login_info[user] = pw
@@ -418,13 +482,29 @@ def load_login_info():
 
 def load_save_file(file_name):
     '''
-    docstr
+    [summary]
+    
+    Arguments:
+        file_name {str} -- name of save file (.txt) to load
+    
+    Raises:
+    
+    Returns:
+
     '''
     pass
 
 def choose_mode(user):
     '''
-    docstr
+    Choose your mode interface. Asks user to choose
+    between 3 game modes.
+    
+    Arguments:
+        user {str} -- username of current user
+    
+    Returns:
+        mode {str} -- game mode the user chose or 
+        logout reserved string
     '''
     print_header('m', user)
     print('CHOOSE YOUR MODE', end='\n\n')
@@ -433,8 +513,10 @@ def choose_mode(user):
     print('\t(2) Medieval Fantasy')
     print('\t(3) Natural Disaster', end='\n\n')
     
+    # Ask user to choose a mode
     mode = get_command(['1', '2', '3', 'l'])
     
+    # Return mode that they chose, or logout
     if mode == '1':
         mode = 'Zombie Apocalypse'
         print('Mode:', mode)
@@ -448,11 +530,21 @@ def choose_mode(user):
         print('Mode:', mode)
         return 'Natural Disaster'
     elif mode == 'l':
-        return 'logout'
+        return '$__logout__'
 
 def create_player(mode, user):
     '''
-    docstr
+    Create your player interface. Lets user
+    either create their own player or
+    generate a player with random stats.
+    
+    Arguments:
+        mode {str} -- game mode,
+        user {str} -- username of current user
+    
+    Returns:
+        player {Player} or {str} -- player object, or
+        logout or save reserved string
     '''
     print_header('crg', user)
     print('CREATE YOUR PLAYER - CREATE OR GENERATE')
@@ -461,41 +553,66 @@ def create_player(mode, user):
     print('\t(1) Create my own player')
     print('\t(2) Generate random player', end='\n\n')
 
+    # Ask user if they want to create their own or 
+    # randomly generate a player
     command = get_command(['1', '2', 's', 'l'])
 
+    # Create own player
     if command == '1':
         print('You chose to create your own player.')
         player = enter_player_stats(mode, user)
 
         ### Edit to make it more aesthetic later
+        # Print player info
         print()
         print(player, end='\n\n')
         
         return player
+    
+    # Generate random player
     elif command == '2':
         print('You chose to generate a random player.')
         player = generate_player(mode)
 
         ### Edit to make it more aesthetic later
+        # Print player info
         print()
         print(player, end='\n\n')
         
         return player
+    
+    # Save
     elif command == 's':
         return '$__save__'
+    
+    # Logout
     elif command == 'l':
         return '$__logout__'
-    else:
-        raise ValueError
     
 def enter_player_stats(mode, user):
     '''
-    docstr
+    Allows user to create their own player
+    by entering data to create a Player
+    object. Returns Player object created
+    using given stats.
+    
+    Arguments:
+        mode {str} -- game mode,
+        user {str} -- username of current user
+    
+    Raises:
+        ValueError: If invalid mode argument given
+    
+    Returns:
+        player {Player} -- player object with entered stats, or
+        save or logout reserved strings
     '''
     ### IDENTITY ###
     ZOMBIE_JOBS = ['unemployed', 'CEO', 'chef', 'police officer', 'fire fighter', 'doctor', 'sales representative', 'waiter', 'teacher', 'fast food worker']
     DISASTER_JOBS = ['job1'] # add later
 
+    # Assign JOBS to different jobs list 
+    # depending on game mode
     if mode == 'Zombie Apocalypse':
         JOBS = ZOMBIE_JOBS
     elif mode == 'Medieval Fantasy':
@@ -510,6 +627,7 @@ def enter_player_stats(mode, user):
     print('CREATE YOUR PLAYER - IDENTITY', end='\n\n')
     print("*** Once you press 'Enter', the input you give cannot be undone. ***", end='\n\n')
 
+    # Input validation for first name
     while True:
         first_name = input('First name: ').strip().capitalize()
         if first_name:
@@ -517,6 +635,7 @@ def enter_player_stats(mode, user):
         else:
             print('Please enter a first name.')
     
+    # Input validation for last name
     while True:
         last_name = input('Last name: ').strip().capitalize()
         if last_name:
@@ -524,8 +643,11 @@ def enter_player_stats(mode, user):
         else:
             print('Please enter a last name.')
 
+    # Concatenate first and last names 
+    # with a space between them
     name = first_name + ' ' + last_name
     
+    # Input validation for age
     while True:
         try:
             age = int(input('Age (from 20-65): '))
@@ -537,6 +659,8 @@ def enter_player_stats(mode, user):
         else:
             break
 
+    # If mode is Medieval Fantasy, choose jobs list
+    # based on user's gender
     if mode == 'Medieval Fantasy':
         while True:
             try:
@@ -553,17 +677,22 @@ def enter_player_stats(mode, user):
         else:
             JOBS = ['court jester', 'knight', 'serf', 'king', 'queen', 'prince', 'princess', 'blacksmith', 'wizard', 'dragon rider', 'priest', 'thief']
 
+    # Print all job options
     counter = 1
     pick_job = {}
-    
     for job in JOBS:
+        # Keep letter case for CEO, capitalize everything else
         if job != 'CEO':
             print('\t(%d) %s' % (counter, job.capitalize()))
         else:
             print('\t(%d) %s' % (counter, job))
+        # Add number and corresponding job to
+        # pick_job dict so that user can pick a job
+        # based on its number
         pick_job[counter] = job
         counter += 1
     
+    # Ask user to pick a job and do input validation
     while True:
         try:
             job = int(input('Job (enter a number): '))
@@ -575,11 +704,33 @@ def enter_player_stats(mode, user):
         else:
             break
 
+    # Assign string job to job variable
     job = pick_job[job]
 
     print('You chose to be a ' + job + '.', end='\n\n')
 
     ### ASK IF USER WANTS GUIDE ###
+    print('You have 60 points to distribute as you wish between 7 types of statistics.', end='\n\n')
+    print('Before distributing points, it is recommended that you view the guide to understand')
+    print('what each statistic affects during gameplay.', end='\n\n')
+    print('Would you like to view the guide?')
+    print('\t(Y) Yes')
+    print('\t(N) No')
+    
+    command = get_command(['y', 'n', 'g', 's', 'l'])
+
+    # View guide if user wants to read it
+    if command == 'y' or command == 'g':
+        guide()
+    # Don't display guide if user doesn't want it
+    elif command == 'n':
+        pass
+    # Save
+    elif command == 's':
+        return '$__save__'
+    # Logout
+    elif command == 'l':
+        return '$__logout__'
 
     ### STATISTICS ###
     print_header('cris', user)
@@ -591,7 +742,9 @@ def enter_player_stats(mode, user):
     
     points_left = 60
 
+    # Stat input while loop
     while True:
+        # Strength input validation
         while True:
             try:
                 strength = int(input('Strength: '))
@@ -603,9 +756,11 @@ def enter_player_stats(mode, user):
             else:
                 break
         
+        # Display points left
         points_left -= strength
         print('You have %d points left.' % (points_left))
         
+        # Skill input validation
         while True:
             try:
                 skill = int(input('Skill: '))
@@ -617,9 +772,11 @@ def enter_player_stats(mode, user):
             else:
                 break
         
+        # Display points left
         points_left -= skill
         print('You have %d points left.' % (points_left))
         
+        # Speed input validation
         while True:
             try:
                 speed = int(input('Speed: '))
@@ -631,9 +788,11 @@ def enter_player_stats(mode, user):
             else:
                 break
 
+        # Display points left
         points_left -= speed
         print('You have %d points left.' % (points_left))
         
+        # Defense input validation
         while True:
             try:
                 defense = int(input('Defense: '))
@@ -645,9 +804,11 @@ def enter_player_stats(mode, user):
             else:
                 break
         
+        # Display points left
         points_left -= defense
         print('You have %d points left.' % (points_left))
         
+        # Intellect input validation
         while True:
             try:
                 intellect = int(input('Intellect: '))
@@ -659,9 +820,11 @@ def enter_player_stats(mode, user):
             else:
                 break
         
+        # Display points left
         points_left -= intellect
         print('You have %d points left.' % (points_left))
         
+        # People Skills input validation
         while True:
             try:
                 ppl = int(input('People Skills: '))
@@ -673,9 +836,11 @@ def enter_player_stats(mode, user):
             else:
                 break
 
+        # Display points left
         points_left -= ppl
         print('You have %d points left.' % (points_left))
         
+        # Luck input validation
         while True:
             try:
                 luck = int(input('Luck: '))
@@ -687,8 +852,11 @@ def enter_player_stats(mode, user):
             else:
                 break
         
+        # Calculate points left
         points_left -= luck
 
+        # Keep asking user to distribute points
+        # if not exactly 60 pts used
         if points_left < 0:
             print('You spent more than 60 pts, please try again.')
             print('Resetting statsitics...')
@@ -699,19 +867,32 @@ def enter_player_stats(mode, user):
             print('Resetting statsitics...')
             sleep(1)
             points_left = 60
+        # If exactly 60 points used, break
         elif points_left == 0:
             break
 
+    # Randomly assign move and display the stat
     move = r.randint(1, 5)
     print()
     print('Move has been randomly set to %d.' % move)
+
+    # Create Player object based on stats
+
+    ### GIVE JOB BONUSES/HANDICAPS
 
     player = c.Player(name, age, job, strength, skill, speed, defense, intellect, ppl, luck, move)
     return player
 
 def generate_player(mode):
     '''
-    docstr
+    Generates a player randomly based
+    on the game mode.
+    
+    Arguments:
+        mode {str} -- game mode
+    
+    Returns:
+        player {Player} -- player object
     '''
     # Get player stats randomly
     name, age, job, strength, skill, speed, defense, intellect, ppl, luck, move = get_player_stats(mode)
@@ -721,7 +902,28 @@ def generate_player(mode):
 
 def get_player_stats(mode):
     '''
-    docstr
+    Generates random statistics to create a 
+    Player object.
+    
+    Arguments:
+        mode {str} -- game mode
+    
+    Raises:
+        ValueError: If invalid mode is given
+    
+    Returns:
+
+        name {str} -- name, 
+        age {int} -- age from 20-65, 
+        job {str} -- job, based on game mode, 
+        stats[0] {int} -- strength from 2-13, 
+        stats[1] {int} -- skill from 2-13, 
+        stats[2] {int} -- speed from 2-13, 
+        stats[3] {int} -- defense from 2-13, 
+        stats[4] {int} -- intellect from 2-13, 
+        stats[5] {int} -- people skills from 2-13, 
+        stats[6] {int} -- luck from 2-13, 
+        move {int} -- move from 1-5
     '''
     # Stat caps after bonuses/handicaps added
     BONUS_MAX_STAT = 13
@@ -730,8 +932,6 @@ def get_player_stats(mode):
     # Stat caps for original random number generation
     MAX_STAT = 10
     MIN_STAT = 5
-
-    ### Name text files
 
     # English first and last names
     FN_FILE_NAME = '/Users/rebeccadang/Desktop/Visual Studio Code/pick-your-path/names/first_names.txt'
@@ -743,6 +943,7 @@ def get_player_stats(mode):
     FANTASY_MIXED_FN_FILE_NAME = '/Users/rebeccadang/Desktop/Visual Studio Code/pick-your-path/names/fantasy_o_fn.txt'
     FANTASY_LN_FILE_NAME = '/Users/rebeccadang/Desktop/Visual Studio Code/pick-your-path/names/fantasy_ln.txt'
 
+    # Generate job if mode is Zombie Apocalypse or Natural Disaster
     if mode == 'Zombie Apocalypse' or mode == 'Natural Disaster':
         # Load names
         FIRST_NAMES = load_names(FN_FILE_NAME, 'f')
@@ -764,9 +965,11 @@ def get_player_stats(mode):
             'teacher':              {'str':-1, 'skl':2, 'spd':0, 'def':0, 'int':2, 'ppl':1, 'luk':1},
             'fast food worker':     {'str':1, 'skl':0, 'spd':2, 'def':0, 'int':-1, 'ppl':1, 'luk':3}
         }
+    # Generate job if mode is Medieval Fantasy
     elif mode == 'Medieval Fantasy':
         # Load names and pick jobs list based on gender
         while True:
+            # Ask user for their gender
             gender = input("Gender? Enter 'm', 'f', or 'o': ").lower()
             if gender == 'm':
                 FIRST_NAMES = load_names(FANTASY_MALE_FN_FILE_NAME, 'f')
@@ -840,43 +1043,72 @@ def get_player_stats(mode):
     stats = [strength, skill, speed, defense, intellect, ppl, luck]
 
     # Check to make sure stats aren't above or below caps
+    # If they are, set the values to the min or max
     for i in range(0, len(stats)):
         if stats[i] < HANDICAP_MIN_STAT:
             stats[i] = HANDICAP_MIN_STAT
         if stats[i] > BONUS_MAX_STAT:
             stats[i] = BONUS_MAX_STAT
 
-    # Add stats to the stats list
     return name, age, job, stats[0], stats[1], stats[2], stats[3], stats[4], stats[5], stats[6], move
 
 def load_names(file_name, purpose):
     '''
-    docstr
+    Loads names from a .txt file and
+    returns a list of those names
+    
+    Arguments:
+        file_name {str} -- .txt file with each name on its own line
+        purpose {str} -- either 'f' or 'l'
+    
+    Raises:
+        ValueError: If invalid purpose given or 
+        file_name is not a text file
+    
+    Returns:
+        names {list} -- elements are strings (names)
     '''
-    names = []
-    # counter = 0
+    if not file_name.endswith('.txt'):
+        raise ValueError('Error, file must be a text file')
 
+    names = []
+    counter = 0
+    
     file = open(file_name, 'r')
 
+    # Add each name to the names list
     for name in file:
         names.append(name.rstrip())
-        # counter += 1
+        counter += 1
     
     # Names counter
-    # if purpose == 'f':
-    #     print(counter, 'first names loaded.')
-    # else:
-    #     print(counter, 'last names loaded.')
+    if purpose == 'f':
+        print(counter, 'first names loaded.')
+    elif purpose == 'l':
+        print(counter, 'last names loaded.')
+    else:
+        raise ValueError("Invalid purpose argument. Valid purpose arguments: 'f', 'l'")
     
     file.close()
 
     return names
 
+def guide():
+    '''
+    [summary]
+
+    Returns:
+        {NoneType}
+    '''
+    pass
+
 def print_credits():
     '''
-    Prints credits for the program.
+    Prints the program's credits if the
+    user wants to view them.
 
-    Returns: None
+    Returns:
+        {NoneType}
     '''
     # Ask user if they want to view the credits
     print('Would you like to view the credits?')
