@@ -5,7 +5,18 @@ from time import sleep
 import pyp_classes as c
 
 VERSION = 0.1
-RESERVED = ['$__exit__', '$__cancel__', '$__save__', '$__logout__', '$__inventory__', '$__map__', '$__guide__', '$__back__', '$__view__']
+
+EXIT = '$__exit__'
+CANCEL = '$__cancel__'
+SAVE = '$__save__'
+LOGOUT = '$__logout__'
+INVENTORY = '$__inventory__'
+MAP = '$__map__'
+GUIDE = '$__guide__'
+BACK = '$__back__'
+VIEW = '$__view__'
+RESERVED = [EXIT, CANCEL, SAVE, LOGOUT, INVENTORY, MAP, GUIDE, BACK, VIEW]
+
 
 def print_header(interface, user=''):
     '''
@@ -301,13 +312,13 @@ def login():
 
             # If username is not a reserved command, stop
             # logging in (else, continue loop)
-            if username != '$__cancel__':
+            if username != CANCEL:
                 return username
                 break
 
         # Exit program  
         elif command == 'x':
-            return '$__exit__'
+            return EXIT
             break
             
 def create_new_account():
@@ -341,7 +352,7 @@ def create_new_account():
             print('Reserved, please choose a different username.')
         elif username == 'c':
             print('Canceling...', end='\n\n')
-            return '$__cancel__'
+            return CANCEL
             break
     
     # Set password
@@ -530,7 +541,7 @@ def choose_mode(user):
         print('Mode:', mode)
         return 'Natural Disaster'
     elif mode == 'l':
-        return '$__logout__'
+        return LOGOUT
 
 def create_player(mode, user):
     '''
@@ -583,11 +594,11 @@ def create_player(mode, user):
     
     # Save
     elif command == 's':
-        return '$__save__'
+        return SAVE
     
     # Logout
     elif command == 'l':
-        return '$__logout__'
+        return LOGOUT
     
 def enter_player_stats(mode, user):
     '''
@@ -721,16 +732,16 @@ def enter_player_stats(mode, user):
 
     # View guide if user wants to read it
     if command == 'y' or command == 'g':
-        guide()
+        guide(user)
     # Don't display guide if user doesn't want it
     elif command == 'n':
         pass
     # Save
     elif command == 's':
-        return '$__save__'
+        return SAVE
     # Logout
     elif command == 'l':
-        return '$__logout__'
+        return LOGOUT
 
     ### STATISTICS ###
     print_header('cris', user)
@@ -1093,14 +1104,105 @@ def load_names(file_name, purpose):
 
     return names
 
-def guide():
+def guide(user):
     '''
-    [summary]
+    Opens the game's guide.
 
     Returns:
         {NoneType}
     '''
-    pass
+    print_header('g', user)
+    print('GUIDE')
+
+    guide = True
+    while guide:
+        print('Choose a section of the guide to read:')
+        print('\t(1) Gameplay')
+        print('\t(2) Player Information')
+        
+        command = get_command(['1', '2', 's', 'l', 'b', 'x'])
+
+        if command == '1':
+            gameplay = True
+        elif command == '2':
+            player_info = True
+        elif command == 's':
+            return SAVE
+        elif command == 'l':
+            return LOGOUT
+        elif command == 'b' or command == 'x':
+            break
+        
+        while gameplay:
+            pass
+            break
+        
+        while player_info:
+            print()
+            print('[Guide / Player Information]')
+            print('Choose a section of PLAYER INFORMATION to read:')
+            print('\t(1) Identity')
+            print('\t(2) Statistics')
+            print('\t(3) Status')
+            print('\t(4) Other')
+
+            command = get_command(['1', '2', '3', '4', 's', 'l', 'b', 'x'])
+
+            # Player Info/Identity
+            if command == '1':
+                player_info_identity = True
+                while player_info_identity:
+                    break
+            # Player Info/Statistics
+            elif command == '2':
+                player_info_stats = True
+                while player_info_stats:
+                    print()
+                    print('[Guide / Player Information / Statistics')
+                    print('Every player (character inside of the game) has 7 player statistics that range from 0 to 20:', end='\n\n')
+                    
+                    print('1. [str] Strength - The physical strength of the player, which affects damage output. Each point in strength gives ______.')
+                    print('2. [skl] Skill - The skill of the player, which affects accuracy rates when using weapons. Each point in skill gives _____.')
+                    print('3. [spd] Speed - The speed of the player, which affects the amount of times the player can strike an opponent. Each point in speed gives _____.')
+                    print('4. [def] Defense - The defense of the player, which reduces damage taken from enemy attacks. Each point in defense reduces damage taken by 0.5 HP.')
+                    print('5. [int] Intellect - The intellect of the player, which affects intelligence-related tasks. Each point in intellect gives ______.')
+                    print('6. [ppl] People Skills - The people skills of the player, which affects interactions with other characters in the game. Each point in people skills gives _____.')
+                    print('7. [luk] Luck - The luck of the player, which boosts all of the other stats. Each point in luck gives _____.', end='\n\n')
+
+                    print("Statistics may be affected positively or negatively by the player's job or status.")
+
+                    command = get_command(['s', 'l', 'b', 'x'])
+
+                    if command == 's':
+                        return SAVE
+                    elif command == 'l':
+                        return LOGOUT
+                    elif command == 'b':
+                        break
+                    elif command == 'x':
+                        player_info = False
+                        guide = False
+                        break
+            # Player Info/Status
+            elif command == '3':
+                player_info_status = True
+                while player_info_status:
+                    break
+            # Player Info/Other
+            elif command == '4':
+                player_info_other = True
+                while player_info_other:
+                    break
+            elif command == 's':
+                return SAVE
+            elif command == 'l':
+                return LOGOUT
+            elif command == 'b':
+                guide = False
+                break
+
+
+
 
 def print_credits():
     '''
@@ -1145,3 +1247,15 @@ def print_credits():
     print()
     print('Thank you for using Pick Your Path!')
     print('You have succesfully exited the program.')
+
+def save(player, user):
+    pass
+
+def view_map(player, user):
+    pass
+
+def view_player_stats(player, user):
+    pass
+
+def view_inventory(player, user):
+    pass
