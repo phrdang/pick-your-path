@@ -39,7 +39,7 @@ def main():
                 pass # CODE THIS
             elif player == '$__logout__':
                 pass # CODE THIS
-            elif player.isinstance(c.Player):
+            elif isinstance(player, c.Player):
                 pass # CODE THIS
 
 
@@ -50,5 +50,8 @@ def main():
     # reset_password('rebecca', '789')
     # test-user, password
     # hi, 12345
+
+    # turn into functions:
+    # save(), guide(), map(), view_player_stats(), inventory()
 
 main()
